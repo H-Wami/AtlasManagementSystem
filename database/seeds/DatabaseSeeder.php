@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
+        // $this->call(UsersTableSeeder::class);
+        // 初期ユーザー
+        $this->call(UsersTableSeeder::class);
+        // 初期値(教科)
+        $this->call(SubjectsTableSeeder::class);
     }
 }
