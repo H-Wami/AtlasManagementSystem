@@ -13,6 +13,8 @@ use DB;
 
 use App\Models\Users\Subjects;
 
+use App\Http\Requests\RegisterFormRequest; // フォームリクエスト使用
+
 class RegisterController extends Controller
 {
     /*
@@ -57,18 +59,19 @@ class RegisterController extends Controller
         return view('auth.register.register', compact('subjects'));
     }
 
-    public function registerPost(Request $request)
+    // 新規ユーザー登録機能
+    public function registerPost(RegisterFormRequest $request) //フォームリクエスト使用
     {
-        DB::beginTransaction();
-        try{
+        DB::beginTransaction(); //トランザクション(一連の処理のまとめ)開始
+        try{ //例外が起こる可能性のある処理
             $old_year = $request->old_year;
             $old_month = $request->old_month;
             $old_day = $request->old_day;
             $data = $old_year . '-' . $old_month . '-' . $old_day;
-            $birth_day = date('Y-m-d', strtotime($data));
+            $birth_day = date('Y-m-d', strtotime($data)); // (年4桁・月2桁・日付2桁,のタイムスタンプを出力)
             $subjects = $request->subject;
 
-            $user_get = User::create([
+            $user_get = User::create([ //新規ユーザー登録実行
                 'over_name' => $request->over_name,
                 'under_name' => $request->under_name,
                 'over_name_kana' => $request->over_name_kana,
@@ -77,15 +80,15 @@ class RegisterController extends Controller
                 'sex' => $request->sex,
                 'birth_day' => $birth_day,
                 'role' => $request->role,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password) //ハッシュ値取得
             ]);
-            $user = User::findOrFail($user_get->id);
+            $user = User::findOrFail($user_get->id);// 新規登録したIDを探して見つからなかったらエラー文を出す
             $user->subjects()->attach($subjects);
-            DB::commit();
-            return view('auth.login.login');
-        }catch(\Exception $e){
-            DB::rollback();
-            return redirect()->route('loginView');
+            DB::commit(); // トランザクションで実行したSQLをすべて確定する
+            return view('auth.login.login'); //ログインページ表示(Controllerで特定のViewを表示)
+        }catch(\Exception $e){ //例外が起こった時の処理
+            DB::rollback(); // トランザクションで実行したSQLをすべて破棄する
+            return redirect()->route('loginView'); //ログインページリダイレクト(Controllerで特定のページへリダイレクト)
         }
     }
 }
