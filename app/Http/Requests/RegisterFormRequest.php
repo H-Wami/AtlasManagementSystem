@@ -17,10 +17,36 @@ class RegisterFormRequest extends FormRequest
     }
 
     /**
+     * rules()の前に実行される
+     * $this->merge(['key' => $value])を実行すると、
+     * フォームで送信された(key, value)の他に任意の(key, value)の組み合わせをrules()に渡せる
+     * old_year old_month old_dayをひとまとめにする
+     */
+     public function getValidatorInstance()
+     {
+        // 生年月日作成
+        $old_year = $this->input('old_year');
+        $old_month = $this->input('old_month');
+        $old_day = $this->input('old_day');
+        $data = $old_year . '-' . $old_month . '-' . $old_day;
+        $birth_day = date('Y-m-d', strtotime($data));
+
+        // rule()に渡す値を追加でセット merge=データを結合
+        $this->merge([
+            'birth_day' => $birth_day,
+        ]);
+
+        // 親クラスのメソッドを呼び出す
+        return parent::getValidatorInstance();
+     }
+
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
+
     public function rules() // バリデーション条件　
     {
         return [
@@ -31,7 +57,7 @@ class RegisterFormRequest extends FormRequest
             'under_name_kana' => 'required|string|regex:/\A[ァ-ヴー]+\z/u|max:30',
             'mail_address' => 'required|string|email|unique:users,mail_address|max:100',
             'sex' => 'required|integer|in:1,2,3', // valueの1~3の値だけにしたい
-            'birth_day' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',// 日付が存在するものかdate_format:Y-m-d|
+            'birth_day' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
             'role' => 'required|integer|in:1,2,3,4', // valueの1~4の値だけにしたい
             'password' => 'required|min:8|max:30|confirmed',
             'password_confirmation' => 'required|min:8|max:30'
