@@ -68,8 +68,13 @@ class RegisterController extends Controller
             $old_month = $request->old_month;
             $old_day = $request->old_day;
             $data = $old_year . '-' . $old_month . '-' . $old_day;
-            $birth_day = date('Y-m-d', strtotime($data)); // (年4桁・月2桁・日付2桁,のタイムスタンプを出力)
+            $birth_day = date('Y-m-d', strtotime($data)); // (年4桁・月2桁・日付2桁,の入力された$dataを出力)
             $subjects = $request->subject;
+
+            if($data !== $birth_day){
+                echo '入力された生年月日は存在しません。';
+                dd($data,$birth_day);
+            }
 
             $user_get = User::create([ //新規ユーザー登録実行
                 'over_name' => $request->over_name,

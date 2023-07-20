@@ -58,6 +58,7 @@ class RegisterFormRequest extends FormRequest
             'mail_address' => 'required|string|email|unique:users,mail_address|max:100',
             'sex' => 'required|integer|in:1,2,3', // valueの1~3の値だけにしたい
             'birth_day' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
+            // required|date|after_or_equal:2000-01-01|before_or_equal:today',
             'role' => 'required|integer|in:1,2,3,4', // valueの1~4の値だけにしたい
             'password' => 'required|min:8|max:30|confirmed',
             'password_confirmation' => 'required|min:8|max:30'
