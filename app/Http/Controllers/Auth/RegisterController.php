@@ -60,7 +60,7 @@ class RegisterController extends Controller
     }
 
     // 新規ユーザー登録機能
-    public function registerPost(RegisterFormRequest $request) //フォームリクエスト使用
+    public function registerPost(RegisterFormRequest $request) //フォームリクエスト使用・バリデーションがかかる
     {
         DB::beginTransaction(); //トランザクション(一連の処理のまとめ)開始
         try{ //例外が起こる可能性のある処理
@@ -68,15 +68,11 @@ class RegisterController extends Controller
             $old_month = $request->old_month;
             $old_day = $request->old_day;
             $data = $old_year . '-' . $old_month . '-' . $old_day;
-            $birth_day = date('Y-m-d', strtotime($data)); // (年4桁・月2桁・日付2桁,の入力された$dataを出力)
+            $birth_day = date('Y-m-d', strtotime($data)); // (年4桁・月2桁・日付2桁,の入力された$dataを出力・自動繰上げ機能あり)
             $subjects = $request->subject;
 
-            if($data !== $birth_day){
-                echo '入力された生年月日は存在しません。';
-                dd($data,$birth_day);
-            }
-
-            $user_get = User::create([ //新規ユーザー登録実行
+            //新規ユーザー登録実行
+            $user_get = User::create([
                 'over_name' => $request->over_name,
                 'under_name' => $request->under_name,
                 'over_name_kana' => $request->over_name_kana,

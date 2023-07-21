@@ -29,11 +29,10 @@ class RegisterFormRequest extends FormRequest
         $old_month = $this->input('old_month');
         $old_day = $this->input('old_day');
         $data = $old_year . '-' . $old_month . '-' . $old_day;
-        $birth_day = date('Y-m-d', strtotime($data));
 
         // rule()に渡す値を追加でセット merge=データを結合
         $this->merge([
-            'birth_day' => $birth_day,
+            'birth_day' => $data,
         ]);
 
         // 親クラスのメソッドを呼び出す
@@ -58,7 +57,6 @@ class RegisterFormRequest extends FormRequest
             'mail_address' => 'required|string|email|unique:users,mail_address|max:100',
             'sex' => 'required|integer|in:1,2,3', // valueの1~3の値だけにしたい
             'birth_day' => 'required|date|after_or_equal:2000-01-01|before_or_equal:today',
-            // required|date|after_or_equal:2000-01-01|before_or_equal:today',
             'role' => 'required|integer|in:1,2,3,4', // valueの1~4の値だけにしたい
             'password' => 'required|min:8|max:30|confirmed',
             'password_confirmation' => 'required|min:8|max:30'
@@ -83,8 +81,8 @@ class RegisterFormRequest extends FormRequest
             'mail_address.unique' => '登録済みのメールアドレスは使用不可です。',
             'mail_address.email' => 'メールアドレスの形式で入力して下さい。',
 
-            //日付が存在するものか
             'birth_day.date' => '入力された生年月日は存在しません。',
+            'birth_day.before_or_equal' => '今日より前の日付を入れて下さい。',
 
             'password.min' => 'パスワードは8文字以上で入力して下さい。',
             'password.max' => 'パスワードは30文字以下で入力して下さい。',

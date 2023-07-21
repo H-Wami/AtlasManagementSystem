@@ -93,7 +93,9 @@
         </div>
         <!-- 生年月日 バリデーションメッセージ -->
         @if($errors->has('birth_day'))
-        {{ $errors->first('birth_day') }}
+        @foreach($errors->get('birth_day') as $message)
+        {{ $message }}<br>
+        @endforeach
         @endif
         <div class="mt-3">
           <label class="d-block m-0 aa" style="font-size:13px">生年月日</label>
