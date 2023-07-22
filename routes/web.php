@@ -18,13 +18,13 @@ Route::group(['middleware' => ['guest']], function(){
         // 新規ユーザー登録機能
         Route::post('/register/post', 'RegisterController@registerPost')->name('registerPost');
         // ログイン画面表示
-        Route::get('/login', 'LoginController@loginView')->name('loginView');
+        Route::get('/login', 'LoginController@loginView')->name('login'); //nameを'loginView'から'login'に修正。
         // ログイン情報送信機能
         Route::post('/login/post', 'LoginController@loginPost')->name('loginPost');
     });
 });
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて修正。
     Route::namespace('Authenticated')->group(function(){
         Route::namespace('Top')->group(function(){
             // ログアウト機能
