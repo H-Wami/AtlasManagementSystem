@@ -15,6 +15,7 @@ use Auth;
 
 class PostsController extends Controller
 {
+    // 投稿一覧画面表示
     public function show(Request $request){
         $posts = Post::with('user', 'postComments')->get();
         $categories = MainCategory::get();

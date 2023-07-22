@@ -14,6 +14,7 @@ use App\Searchs\SearchResultFactories;
 class UsersController extends Controller
 {
 
+    // ユーザー検索画面表示
     public function showUsers(Request $request){
         $keyword = $request->keyword;
         $category = $request->category;

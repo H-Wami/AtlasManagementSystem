@@ -53,6 +53,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+    // 新規ユーザー登録画面表示
     public function registerView()
     {
         $subjects = Subjects::all();

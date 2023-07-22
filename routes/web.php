@@ -13,9 +13,13 @@
 
 Route::group(['middleware' => ['guest']], function(){
     Route::namespace('Auth')->group(function(){
+        // 新規ユーザー登録画面表示
         Route::get('/register', 'RegisterController@registerView')->name('registerView');
+        // 新規ユーザー登録機能
         Route::post('/register/post', 'RegisterController@registerPost')->name('registerPost');
+        // ログイン画面表示
         Route::get('/login', 'LoginController@loginView')->name('loginView');
+        // ログイン情報送信機能
         Route::post('/login/post', 'LoginController@loginPost')->name('loginPost');
     });
 });
@@ -23,23 +27,29 @@ Route::group(['middleware' => ['guest']], function(){
 Route::group(['middleware' => 'auth'], function(){
     Route::namespace('Authenticated')->group(function(){
         Route::namespace('Top')->group(function(){
+            // ログアウト機能
             Route::get('/logout', 'TopsController@logout');
+            // トップページ画面
             Route::get('/top', 'TopsController@show')->name('top.show');
         });
         Route::namespace('Calendar')->group(function(){
             Route::namespace('General')->group(function(){
+                // スクール予約ページ画面表示
                 Route::get('/calendar/{user_id}', 'CalendarsController@show')->name('calendar.general.show');
                 Route::post('/reserve/calendar', 'CalendarsController@reserve')->name('reserveParts');
                 Route::post('/delete/calendar', 'CalendarsController@delete')->name('deleteParts');
             });
             Route::namespace('Admin')->group(function(){
+                // スクール予約確認画面表示
                 Route::get('/calendar/{user_id}/admin', 'CalendarsController@show')->name('calendar.admin.show');
                 Route::get('/calendar/{date}/{part}', 'CalendarsController@reserveDetail')->name('calendar.admin.detail');
+                // スクール枠登録画面表示
                 Route::get('/setting/{user_id}/admin', 'CalendarsController@reserveSettings')->name('calendar.admin.setting');
                 Route::post('/setting/update/admin', 'CalendarsController@updateSettings')->name('calendar.admin.update');
             });
         });
         Route::namespace('BulletinBoard')->group(function(){
+            // 投稿一覧画面表示
             Route::get('/bulletin_board/posts/{keyword?}', 'PostsController@show')->name('post.show');
             Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input');
             Route::get('/bulletin_board/like', 'PostsController@likeBulletinBoard')->name('like.bulletin.board');
@@ -55,6 +65,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::post('/unlike/post/{id}', 'PostsController@postUnLike')->name('post.unlike');
         });
         Route::namespace('Users')->group(function(){
+            // ユーザー検索画面表示
             Route::get('/show/users', 'UsersController@showUsers')->name('user.show');
             Route::get('/user/profile/{id}', 'UsersController@userProfile')->name('user.profile');
             Route::post('/user/profile/edit', 'UsersController@userEdit')->name('user.edit');
