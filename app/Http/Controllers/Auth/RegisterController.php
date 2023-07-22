@@ -90,7 +90,8 @@ class RegisterController extends Controller
             return view('auth.login.login'); //ログインページ表示(Controllerで特定のViewを表示)
         }catch(\Exception $e){ //例外が起こった時の処理
             DB::rollback(); // トランザクションで実行したSQLをすべて破棄する
-            return redirect()->route('loginView'); //ログインページリダイレクト(Controllerで特定のページへリダイレクト)
+            return redirect()->route('login'); //ログインページリダイレクト(Controllerで特定のページへリダイレクト)
+            //loginViewからloginに修正。
         }
     }
 }
