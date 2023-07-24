@@ -44,18 +44,23 @@ class PostsController extends Controller
         return view('authenticated.bulletinboard.post_detail', compact('post'));
     }
 
+    // 投稿画面表示
     public function postInput(){
         $main_categories = MainCategory::get();
-        return view('authenticated.bulletinboard.post_create', compact('main_categories'));
+        $sub_categories = SubCategory::get(); //追加
+        return view('authenticated.bulletinboard.post_create', compact('main_categories','sub_categories'));
     }
 
+    // 新規投稿作成機能
     public function postCreate(PostFormRequest $request){
-        $post = Post::create([
+        $post = Post::create([ // postsテーブルに入力された値を保存する
             'user_id' => Auth::id(),
             'post_title' => $request->post_title,
             'post' => $request->post_body
         ]);
-        return redirect()->route('post.show');
+        $sub_categories = $request->post_category_id;
+        $post->post_sub_categories()->attach($sub_categories);
+        return redirect()->route('post.show',compact('post')); // compact('post')追加
     }
 
     public function postEdit(Request $request){
@@ -70,6 +75,7 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
+    // メインカテゴリー作成機能
     public function mainCategoryCreate(Request $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');

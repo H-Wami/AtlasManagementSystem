@@ -85,7 +85,7 @@ class RegisterController extends Controller
                 'password' => bcrypt($request->password) //ハッシュ値取得
             ]);
             $user = User::findOrFail($user_get->id);// 新規登録したIDを探して見つからなかったらエラー文を出す
-            $user->subjects()->attach($subjects);
+            $user->subjects()->attach($subjects); // 中間テーブルに保存
             DB::commit(); // トランザクションで実行したSQLをすべて確定する
             return view('auth.login.login'); //ログインページ表示(Controllerで特定のViewを表示)
         }catch(\Exception $e){ //例外が起こった時の処理

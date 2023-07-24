@@ -15,6 +15,8 @@ class Post extends Model
         'post',
     ];
 
+    // usersテーブルとリレーション　リレーション定義　1×多
+    // 1側と結合 メソッド単数 belongsTo(対象先のモデル)
     public function user(){
         return $this->belongsTo('App\Models\Users\User');
     }
@@ -23,8 +25,10 @@ class Post extends Model
         return $this->hasMany('App\Models\Posts\PostComment');
     }
 
+    // sub_categoryテーブルとリレーション　リレーション定義　多×多
+    // (関係するモデル、中間テーブル名、接続元(自分)の中間テーブルカラム、接続したい(相手)の中間テーブルカラム)
     public function subCategories(){
-        // リレーションの定義
+        return $this->belongsToMany('App\Models\Categories\SubCategory', 'post_sub_categories', 'post_id', 'sub_category_id');// リレーションの定義
     }
 
     // コメント数

@@ -51,10 +51,13 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
         Route::namespace('BulletinBoard')->group(function(){
             // 投稿一覧画面表示
             Route::get('/bulletin_board/posts/{keyword?}', 'PostsController@show')->name('post.show');
+            // 投稿画面表示
             Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input');
             Route::get('/bulletin_board/like', 'PostsController@likeBulletinBoard')->name('like.bulletin.board');
             Route::get('/bulletin_board/my_post', 'PostsController@myBulletinBoard')->name('my.bulletin.board');
+            // 新規投稿作成機能
             Route::post('/bulletin_board/create', 'PostsController@postCreate')->name('post.create');
+            // メインカテゴリー作成機能
             Route::post('/create/main_category', 'PostsController@mainCategoryCreate')->name('main.category.create');
             Route::post('/create/sub_category', 'PostsController@subCategoryCreate')->name('sub.category.create');
             Route::get('/bulletin_board/post/{id}', 'PostsController@postDetail')->name('post.detail');

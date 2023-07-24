@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+    // @can('admin')で講師のみ(生徒以外)表示を可能にする制限
     public function boot()
     {
         $this->registerPolicies();

@@ -121,6 +121,8 @@ li{
 .un_like_btn{
   color:#E2254D;
 }
+
+/* バリデーションメッセージ */
 .error_message{
   font-size:12px;
   color:red;
