@@ -24,7 +24,7 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_category_id' => 'required|integer|exists:post_sub_categories,sub_category_id',
+            'post_category_id' => 'required|exists:sub_categories,id',
             'post_title' => 'required|string|max:100', //'初期値 min:4|max:50'
             'post_body' => 'required|string|max:5000', //'初期値　min:10|max:500'
         ];
@@ -38,7 +38,8 @@ class PostFormRequest extends FormRequest
             // 'post_body.min' => '内容は10文字以上入力してください。',
             // 'post_body.max' => '最大文字数は500文字です。',
 
-
+            'post_category_id.required' => 'サブカテゴリーは入力必須です。',
+            'post_category_id.exists' => 'このサブカテゴリーは登録されていません。',
 
             'post_title.required' => 'タイトルは入力必須です。',
             'post_title.max' => 'タイトルは100文字以下で入力して下さい。',

@@ -58,8 +58,10 @@ class PostsController extends Controller
             'post_title' => $request->post_title,
             'post' => $request->post_body
         ]);
-        $sub_categories = $request->post_category_id;
-        $post->post_sub_categories()->attach($sub_categories);
+
+        $sub_categories = $request->post_category_id; // 入力されたname属性(post_category_id)を取得
+        $sub_category = Post::findOrFail($post->id); // 新規投稿のIDを探して見つからなかったらエラー文を出す
+        $post->subCategories()->attach($sub_categories); // 保存された$postからリレーションした中間テーブルに$sub_categoriesを保存する
         return redirect()->route('post.show',compact('post')); // compact('post')追加
     }
 
