@@ -60,8 +60,10 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             // メインカテゴリー作成機能
             Route::post('/create/main_category', 'PostsController@mainCategoryCreate')->name('main.category.create');
             Route::post('/create/sub_category', 'PostsController@subCategoryCreate')->name('sub.category.create');
+            // 投稿詳細画面表示
             Route::get('/bulletin_board/post/{id}', 'PostsController@postDetail')->name('post.detail');
             Route::post('/bulletin_board/edit', 'PostsController@postEdit')->name('post.edit');
+            // 投稿削除機能
             Route::get('/bulletin_board/delete/{id}', 'PostsController@postDelete')->name('post.delete');
             Route::post('/comment/create', 'PostsController@commentCreate')->name('comment.create');
             Route::post('/like/post/{id}', 'PostsController@postLike')->name('post.like');

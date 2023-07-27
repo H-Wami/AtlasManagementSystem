@@ -38,7 +38,7 @@ class PostsController extends Controller
         }
         return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));
     }
-
+    // 投稿詳細画面表示
     public function postDetail($post_id){
         $post = Post::with('user', 'postComments')->findOrFail($post_id);
         return view('authenticated.bulletinboard.post_detail', compact('post'));
@@ -61,7 +61,7 @@ class PostsController extends Controller
 
         $sub_categories = $request->post_category_id; // 入力されたname属性(post_category_id)を取得
         $sub_category = Post::findOrFail($post->id); // 新規投稿のIDを探して見つからなかったらエラー文を出す
-        $post->subCategories()->attach($sub_categories); // 保存された$postからリレーションした中間テーブルに$sub_categoriesを保存する
+        $sub_category->subCategories()->attach($sub_categories); // 保存された$postからリレーションした中間テーブルに$sub_categoriesを保存する
         return redirect()->route('post.show',compact('post')); // compact('post')追加
     }
 
@@ -73,8 +73,12 @@ class PostsController extends Controller
         return redirect()->route('post.detail', ['id' => $request->post_id]);
     }
 
+    // 投稿削除機能
     public function postDelete($id){
-        Post::findOrFail($id)->delete();
+        $sub_categories = SubCategory::where('post_id', $id);
+        dd($sub_categories);
+        $post = Post::findOrFail($id)->delete(); // 投稿IDがなければエラー文を出し、投稿削除する。
+        $post->subCategories()->detach($sub_categories); // 投稿削除と一緒に中間テーブルの値も削除する。
         return redirect()->route('post.show');
     }
     // メインカテゴリー作成機能

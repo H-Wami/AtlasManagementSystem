@@ -7,10 +7,14 @@
         <div class="detail_inner_head">
           <div>
           </div>
+          <!-- もし、投稿のユーザーIDがログインユーザーIDならば表示する -->
+          @if($post->user_id === Auth::user()->id)
           <div>
             <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            <!-- 削除ボタン -->
+            <a class="btn btn-danger" href=" {{ route('post.delete', ['id' => $post->id]) }}" class="btn-text" onclick="return confirm('この投稿を削除します。よろしいでしょうか？')">削除</a>
           </div>
+          @endif
         </div>
 
         <div class="contributor d-flex">
@@ -52,6 +56,8 @@
     </div>
   </div>
 </div>
+
+<!-- 編集ボタン モーダル中身 -->
 <div class="modal js-modal">
   <div class="modal__bg js-modal-close"></div>
   <div class="modal__content">

@@ -10,17 +10,17 @@
       <div class="">
         @if($errors->has('post_category_id'))
         @foreach($errors->get('post_category_id') as $message)
-        {{ $message }}<br>
+        <span class="error_message">{{ $message }}</span><br>
         @endforeach
         @endif
         <p class="mb-0">カテゴリー</p>
         <select class="w-100" form="postCreate" name="post_category_id">
           @foreach($main_categories as $main_category)
           <optgroup label="{{ $main_category->main_category }}"></optgroup>
-            <!-- サブカテゴリー表示 -->
-            @foreach($sub_categories as $sub_category)
-            <option value="{{ $sub_category->id }}">{{ $sub_category->sub_category }}</option>
-            @endforeach
+          <!-- サブカテゴリー表示 -->
+          @foreach($sub_categories as $sub_category)
+          <option value="{{ $sub_category->id }}">{{ $sub_category->sub_category }}</option>
+          @endforeach
           </optgroup>
           @endforeach
         </select>
@@ -32,6 +32,7 @@
         @endif
         <p class="mb-0">タイトル</p>
         <input type="text" class="w-100" form="postCreate" name="post_title" value="{{ old('post_title') }}">
+        <!-- oldヘルパー:バリデーションエラーになった場合に、フォームの値を保持 -->
       </div>
       <!-- 投稿内容 -->
       <div class="mt-3">
