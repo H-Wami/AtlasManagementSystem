@@ -5,7 +5,7 @@
     <div class="m-3 detail_container">
       <!-- 投稿編集バリデーションメッセージ -->
       @if($errors->first('post_title'))
-      <span class="error_message">{{ $errors->first('post_title') }}</span>
+      <span class="error_message">{{ $errors->first('post_title') }}</span><br>
       @endif
       @if($errors->first('post_body'))
       <span class="error_message">{{ $errors->first('post_body') }}</span>
