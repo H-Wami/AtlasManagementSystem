@@ -3,14 +3,25 @@
 <div class="vh-100 d-flex">
   <div class="w-50 mt-5">
     <div class="m-3 detail_container">
+      <!-- 投稿編集バリデーションメッセージ -->
+      @if($errors->first('post_title'))
+      <span class="error_message">{{ $errors->first('post_title') }}</span>
+      @endif
+      @if($errors->first('post_body'))
+      <span class="error_message">{{ $errors->first('post_body') }}</span>
+      @endif
       <div class="p-3">
         <div class="detail_inner_head">
+          <!-- サブカテゴリー -->
           <div>
+            <!-- postsテーブルの値->リレーションメソッド->リレーションテーブルの値取得->取得したいカラム名 -->
+            <span class="post_sub_category">{{ $post->subCategories->first()->sub_category }}</span>
           </div>
           <!-- もし、投稿のユーザーIDがログインユーザーIDならば表示する -->
           @if($post->user_id === Auth::user()->id)
           <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
+            <!-- 編集ボタン -->
+            <span class="edit-modal-open btn btn-primary" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
             <!-- 削除ボタン -->
             <a class="btn btn-danger" href=" {{ route('post.delete', ['id' => $post->id]) }}" class="btn-text" onclick="return confirm('この投稿を削除します。よろしいでしょうか？')">削除</a>
           </div>
@@ -66,7 +77,7 @@
         <div class="modal-inner-title w-50 m-auto">
           <input type="text" name="post_title" placeholder="タイトル" class="w-100">
         </div>
-        <div class="modal-inner-body w-50 m-auto pt-3 pb-3">
+        <div class="modal-inner-body w-50 m-auto"><!-- pt-3 pb-3削除 -->
           <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
         </div>
         <div class="w-50 m-auto edit-modal-btn d-flex">

@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             Route::post('/create/sub_category', 'PostsController@subCategoryCreate')->name('sub.category.create');
             // 投稿詳細画面表示
             Route::get('/bulletin_board/post/{id}', 'PostsController@postDetail')->name('post.detail');
+            // 投稿編集機能
             Route::post('/bulletin_board/edit', 'PostsController@postEdit')->name('post.edit');
             // 投稿削除機能
             Route::get('/bulletin_board/delete/{id}', 'PostsController@postDelete')->name('post.delete');

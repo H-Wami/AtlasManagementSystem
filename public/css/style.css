@@ -4,6 +4,8 @@
     margin: 0;
     padding: 0;
 }
+
+/* 共通パーツ */
 /* body */
 .all_content{
   background:#ECF1F6;
@@ -11,6 +13,32 @@
 ul,
 li{
   list-style:none;
+}
+
+/* バリデーションメッセージ */
+.error_message {
+  font-size: 12px;
+  color: red;
+}
+
+/* ボタン */
+.btn-primary{
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.btn-danger{
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.post_sub_category{
+  font-size: 12px;
+  font-weight: bold;
+  color: #FFF;
+  background: #03AAD2;
+  padding: 8px 5px;
+  border-radius: 12px;
 }
 
 /* サイドバー */
@@ -90,19 +118,43 @@ li{
     width: 60%;
 }
 
-/* 掲示板 */
+.modal-inner-title {
+  border: solid 1px #DEE2E6;
+}
+
+.modal-inner-body {
+  border: solid 1px #DEE2E6;
+}
+
+/* 掲示板 投稿画面 */
 .sub_categories{
   display:none;
 }
+
 .post_create_area{
   background:#FFF;
   border-radius:10px;
 }
+
+.post_create_area select {
+  border: solid 1px #DEE2E6;
+  -moz-appearance: menulist;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+.post_create_area input {
+  border: solid 1px #DEE2E6;
+}
+
 .post_create_area textarea{
+  border: solid 1px #DEE2E6;
   resize:none;
   height:300px;
   white-space: pre-wrap;
 }
+
+
 .detail_container{
   background:#FFF;
 }
@@ -120,12 +172,6 @@ li{
 .un_like,
 .un_like_btn{
   color:#E2254D;
-}
-
-/* バリデーションメッセージ */
-.error_message{
-  font-size:12px;
-  color:red;
 }
 
 /* 掲示板 詳細画面 */
@@ -167,6 +213,7 @@ li{
 .comment_area textarea{
   height:300px;
   resize:none;
+  border: solid 1px #DEE2E6;
 }
 .comment_container span{
   font-size:12px;

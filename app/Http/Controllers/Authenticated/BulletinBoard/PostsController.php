@@ -65,22 +65,39 @@ class PostsController extends Controller
         return redirect()->route('post.show',compact('post')); // compact('post')追加
     }
 
+    // 投稿編集機能
     public function postEdit(Request $request){
-        Post::where('id', $request->post_id)->update([
+
+        // バリデーション定義・メッセージ
+        $request->validate(
+            [
+                'post_title' => 'required|string|max:100',
+                'post_body' => 'required|string|max:5000'
+            ],
+            [
+                'post_title.required' => 'タイトルは入力必須です。',
+                'post_title.max' => 'タイトルは100文字以下で入力して下さい。',
+
+                'post_body.required' => '内容は入力必須です。',
+                'post_body.max' => '内容は5000文字以下で入力して下さい。',
+            ]
+        );
+
+        Post::where('id', $request->post_id)->update([ //(カラム名,$requestのpost_id)と一致している投稿を探す
             'post_title' => $request->post_title,
             'post' => $request->post_body,
-        ]);
+        ]); // 入力された値に編集して保存する。
         return redirect()->route('post.detail', ['id' => $request->post_id]);
     }
 
     // 投稿削除機能
-    public function postDelete($id){
-        $sub_categories = SubCategory::where('post_id', $id);
-        dd($sub_categories);
-        $post = Post::findOrFail($id)->delete(); // 投稿IDがなければエラー文を出し、投稿削除する。
-        $post->subCategories()->detach($sub_categories); // 投稿削除と一緒に中間テーブルの値も削除する。
+    public function postDelete($id){ //$id=投稿IDのみ取得。
+        $post = Post::findOrFail($id); //削除したい投稿(postsテーブル)を取得する。なければエラー文を出す。
+        $post->subCategories()->detach(); // 削除したい投稿の中間テーブルの値を削除する。
+        $post->delete(); // 投稿削除する。
         return redirect()->route('post.show');
     }
+
     // メインカテゴリー作成機能
     public function mainCategoryCreate(Request $request){
         MainCategory::create(['main_category' => $request->main_category_name]);

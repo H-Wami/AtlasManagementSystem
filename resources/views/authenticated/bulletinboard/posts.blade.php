@@ -14,6 +14,11 @@
       <p><a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a></p>
       <!-- 下端コンテンツひとまとめ -->
       <div class="post_bottom_area d-flex">
+        <!-- サブカテゴリー -->
+        <div>
+          <!-- postsテーブルの値->リレーションメソッド->リレーションテーブルの値取得->取得したいカラム名 -->
+          <span class="post_sub_category">{{ $post->subCategories->first()->sub_category }}</span>
+        </div>
         <div class="d-flex post_status">
           <!-- コメント吹き出し -->
           <div class="mr-5">
