@@ -53,7 +53,9 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             Route::get('/bulletin_board/posts/{keyword?}', 'PostsController@show')->name('post.show');
             // 投稿画面表示
             Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input');
+            // いいねした投稿表示
             Route::get('/bulletin_board/like', 'PostsController@likeBulletinBoard')->name('like.bulletin.board');
+            // 自分の投稿表示
             Route::get('/bulletin_board/my_post', 'PostsController@myBulletinBoard')->name('my.bulletin.board');
             // 新規投稿作成機能
             Route::post('/bulletin_board/create', 'PostsController@postCreate')->name('post.create');
@@ -67,7 +69,9 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             // 投稿削除機能
             Route::get('/bulletin_board/delete/{id}', 'PostsController@postDelete')->name('post.delete');
             Route::post('/comment/create', 'PostsController@commentCreate')->name('comment.create');
+            // いいね登録機能
             Route::post('/like/post/{id}', 'PostsController@postLike')->name('post.like');
+            // いいね削除機能
             Route::post('/unlike/post/{id}', 'PostsController@postUnLike')->name('post.unlike');
         });
         Route::namespace('Users')->group(function(){

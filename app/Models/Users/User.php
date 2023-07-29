@@ -76,10 +76,11 @@ class User extends Authenticatable
 
     // いいねしているかどうか
     public function is_Like($post_id){
-        return Like::where('like_user_id', Auth::id())->where('like_post_id', $post_id)->first(['likes.id']);
+        return Like::where('like_user_id', Auth::id())->where('like_post_id', $post_id)->first(['likes.id']); // likesテーブルのlike_user_idカラムと$user_idが一致している->likesテーブルのlike_post_idカラムと$post_idが一致している-> likesテーブルのIDを取得する
     }
 
+    //
     public function likePostId(){
-        return Like::where('like_user_id', Auth::id());
+        return Like::where('like_user_id', Auth::id()); // likesテーブルのlike_user_idカラムとログインユーザーIDが一致している
     }
 }

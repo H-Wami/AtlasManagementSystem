@@ -17,10 +17,10 @@ class PostsController extends Controller
 {
     // 投稿一覧画面表示
     public function show(Request $request){
-        $posts = Post::with('user', 'postComments')->get();
+        $posts = Post::with('user', 'postComments')->get(); // Postモデルのリレーション先
         $categories = MainCategory::get();
-        $like = new Like;
-        $post_comment = new Post;
+        $like = new Like; // Likeモデル使用(値の取り出し)
+        $post_comment = new Post; // Postモデル使用(値の取り出し)
         if(!empty($request->keyword)){
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
@@ -113,42 +113,46 @@ class PostsController extends Controller
         return redirect()->route('post.detail', ['id' => $request->post_id]);
     }
 
+    // 自分の投稿表示
     public function myBulletinBoard(){
-        $posts = Auth::user()->posts()->get();
-        $like = new Like;
+        $posts = Auth::user()->posts()->get(); // ログインユーザーの投稿を取得
+        $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.post_myself', compact('posts', 'like'));
     }
 
+    // いいねした投稿表示
     public function likeBulletinBoard(){
-        $like_post_id = Like::with('users')->where('like_user_id', Auth::id())->get('like_post_id')->toArray();
-        $posts = Post::with('user')->whereIn('id', $like_post_id)->get();
-        $like = new Like;
+        $like_post_id = Like::with('users')->where('like_user_id', Auth::id())->get('like_post_id')->toArray(); // likesテーブルと関連するusersテーブルを取得。->likesテーブルのlike_user_idカラムとログインユーザーIDが同じ->like_post_idカラムを取得->配列に変換
+        $posts = Post::with('user')->whereIn('id', $like_post_id)->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと
+        $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.post_like', compact('posts', 'like'));
     }
 
+    // いいね登録機能
     public function postLike(Request $request){
-        $user_id = Auth::id();
-        $post_id = $request->post_id;
+        $user_id = Auth::id(); // ログインユーザーID格納
+        $post_id = $request->post_id; // 投稿ID格納
 
-        $like = new Like;
+        $like = new Like; // Likeモデル使用(値の取り出し)
 
-        $like->like_user_id = $user_id;
-        $like->like_post_id = $post_id;
-        $like->save();
+        $like->like_user_id = $user_id; // likesテーブルのlike_user_idカラムは$user_idと同じ
+        $like->like_post_id = $post_id; // likesテーブルのlike_post_idカラムは$post_idと同じ
+        $like->save(); // いいね登録実行
 
-        return response()->json();
+        return response()->json(); // response(返事)をjson(JavaScriptのオブジェクトの書き方を元にしたデータ定義方法)で取得
     }
 
+    // いいね削除機能
     public function postUnLike(Request $request){
-        $user_id = Auth::id();
-        $post_id = $request->post_id;
+        $user_id = Auth::id(); // ログインユーザーID格納
+        $post_id = $request->post_id; // 投稿ID格納
 
-        $like = new Like;
+        $like = new Like; // Likeモデル使用(値の取り出し)
 
-        $like->where('like_user_id', $user_id)
-             ->where('like_post_id', $post_id)
-             ->delete();
+        $like->where('like_user_id', $user_id) // likesテーブルのlike_user_idカラムと$user_idが一致している
+             ->where('like_post_id', $post_id) // likesテーブルのlike_post_idカラムと$post_idが一致している
+             ->delete(); // いいね削除実行
 
-        return response()->json();
+        return response()->json(); // response(返事)をjson(JavaScriptのオブジェクトの書き方を元にしたデータ定義方法)で取得
     }
 }

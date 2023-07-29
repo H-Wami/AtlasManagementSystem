@@ -26,10 +26,12 @@
           </div>
           <!-- いいねハートマーク -->
           <div>
+            <!-- もし、ログインユーザーがいいねしていたら、いいね解除マークを表示する -->
             @if(Auth::user()->is_Like($post->id))
-            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}"></span></p>
+            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->count() }}</span></p>
+            <!-- いいねしていなければ、いいね実行マークを表示する -->
             @else
-            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}"></span></p>
+            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->count() }}</span></p>
             @endif
           </div>
         </div>
@@ -44,7 +46,9 @@
         <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
         <input type="submit" value="検索" form="postSearchRequest">
       </div>
+      <!-- いいねした投稿表示ボタン -->
       <input type="submit" name="like_posts" class="category_btn" value="いいねした投稿" form="postSearchRequest">
+      <!-- 自分の投稿表示ボタン -->
       <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
       <ul>
         @foreach($categories as $category)
