@@ -15,26 +15,26 @@ use Auth;
 
 class PostsController extends Controller
 {
-    // 投稿一覧画面表示
+    // 投稿一覧画面表示(検索機能)
     public function show(Request $request){
         $posts = Post::with('user', 'postComments')->get(); // Postモデルのリレーション先
         $categories = MainCategory::get();
         $like = new Like; // Likeモデル使用(値の取り出し)
         $post_comment = new Post; // Postモデル使用(値の取り出し)
-        if(!empty($request->keyword)){
+        if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
-        }else if($request->category_word){
+            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->post_titleカラムであいまい検索->または投稿内容であいまい検索→値を取得
+        }else if($request->category_word){ // もし
             $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get();
-        }else if($request->like_posts){
-            $likes = Auth::user()->likePostId()->get('like_post_id');
+            $posts = Post::with('user', 'postComments')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得
+        }else if($request->like_posts){ // もしいいねした投稿表示ボタンが押されたら(値が送信されたら)、
+            $likes = Auth::user()->likePostId()->get('like_post_id'); // ログインユーザーの情報->likesテーブルのlike_user_idカラムとログインユーザーIDが一致している->link_post_idカラムを取得
             $posts = Post::with('user', 'postComments')
-            ->whereIn('id', $likes)->get();
-        }else if($request->my_posts){
+            ->whereIn('id', $likes)->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->postsテーブルのidカラムが$likeと同じ投稿を取得
+        }else if($request->my_posts){ // もし自分の投稿表示ボタンが押されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments')
-            ->where('user_id', Auth::id())->get();
+            ->where('user_id', Auth::id())->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->user_idカラムとログインユーザーIDが同じ投稿を取得
         }
         return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));
     }
@@ -138,6 +138,7 @@ class PostsController extends Controller
         $like->like_user_id = $user_id; // likesテーブルのlike_user_idカラムは$user_idと同じ
         $like->like_post_id = $post_id; // likesテーブルのlike_post_idカラムは$post_idと同じ
         $like->save(); // いいね登録実行
+        // それぞれの値を変数にしてsave()を使用して保存している=リレーション不要
 
         return response()->json(); // response(返事)をjson(JavaScriptのオブジェクトの書き方を元にしたデータ定義方法)で取得
     }

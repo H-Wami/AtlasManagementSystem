@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             });
         });
         Route::namespace('BulletinBoard')->group(function(){
-            // 投稿一覧画面表示
+            // 投稿一覧画面表示(検索機能)
             Route::get('/bulletin_board/posts/{keyword?}', 'PostsController@show')->name('post.show');
             // 投稿画面表示
             Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input');

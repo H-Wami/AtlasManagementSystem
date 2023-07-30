@@ -28,10 +28,10 @@
           <div>
             <!-- もし、ログインユーザーがいいねしていたら、いいね解除マークを表示する -->
             @if(Auth::user()->is_Like($post->id))
-            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->count() }}</span></p>
+            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
             <!-- いいねしていなければ、いいね実行マークを表示する -->
             @else
-            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->count() }}</span></p>
+            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
             @endif
           </div>
         </div>
