@@ -21,6 +21,8 @@ class Post extends Model
         return $this->belongsTo('App\Models\Users\User');
     }
 
+    // post_commentsテーブルとリレーション　リレーション定義　1×多
+    // 多側と結合 メソッド複数形 hasMany(対象先のモデル)
     public function postComments(){
         return $this->hasMany('App\Models\Posts\PostComment');
     }
@@ -33,6 +35,6 @@ class Post extends Model
 
     // コメント数
     public function commentCounts($post_id){
-        return Post::with('postComments')->find($post_id)->postComments();
+        return Post::with('postComments')->find($post_id)->postComments(); // postsテーブルと関連するpost_commentsテーブルを取得->$post_idと同じレコードを一つだけ取得する->commentUserメソッド使用
     }
 }

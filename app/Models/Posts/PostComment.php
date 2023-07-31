@@ -17,11 +17,14 @@ class PostComment extends Model
         'comment',
     ];
 
+    // postsテーブルとリレーション　リレーション定義　1×多
+    // 1側と結合 メソッド単数 belongsTo(対象先のモデル)
     public function post(){
         return $this->belongsTo('App\Models\Posts\Post');
     }
 
+    // コメントしているかどうか
     public function commentUser($user_id){
-        return User::where('id', $user_id)->first();
+        return User::where('id', $user_id)->first();// usersテーブルのidカラムと$user_idが一致している->値を取得
     }
 }

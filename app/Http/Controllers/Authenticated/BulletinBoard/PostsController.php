@@ -24,7 +24,7 @@ class PostsController extends Controller
         if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->post_titleカラムであいまい検索->または投稿内容であいまい検索→値を取得
+            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->タイトル(post_titleカラム)であいまい検索->または投稿内容(postカラム)であいまい検索→値を取得
         }else if($request->category_word){ // もし
             $sub_category = $request->category_word;
             $posts = Post::with('user', 'postComments')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得
@@ -104,10 +104,23 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
+    // 新規コメント作成機能
     public function commentCreate(Request $request){
-        PostComment::create([
+
+        // バリデーション定義・メッセージ
+        $request->validate(
+            [
+                'comment' => 'required|string|max:2500'
+            ],
+            [
+                'comment.required' => 'コメントは入力必須です。',
+                'comment.max' => 'コメントは2500文字以下で入力して下さい。',
+            ]
+        );
+
+        PostComment::create([ // post_commentsテーブルに入力された値を保存する
             'post_id' => $request->post_id,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id(), // 投稿した人のID => ログインユーザーID
             'comment' => $request->comment
         ]);
         return redirect()->route('post.detail', ['id' => $request->post_id]);

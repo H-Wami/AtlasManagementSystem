@@ -22,7 +22,7 @@
         <div class="d-flex post_status">
           <!-- コメント吹き出し -->
           <div class="mr-5">
-            <i class="fa fa-comment"></i><span class=""></span>
+            <i class="fa fa-comment"></i><span class="">{{ $post->commentCounts($post->id)->count() }}</span><!-- $postの値取得->commentCountsメソッド使用->count関数で各投稿のコメントの数を取得 -->
           </div>
           <!-- いいねハートマーク -->
           <div>
@@ -41,7 +41,9 @@
   </div>
   <div class="other_area border w-25">
     <div class="border m-4">
+      <!-- 新規投稿ボタン -->
       <div class=""><a href="{{ route('post.input') }}">投稿</a></div>
+      <!-- 検索フォーム -->
       <div class="">
         <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
         <input type="submit" value="検索" form="postSearchRequest">
