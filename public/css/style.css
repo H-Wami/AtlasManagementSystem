@@ -9,7 +9,9 @@
 /* body */
 .all_content{
   background:#ECF1F6;
+  height: 100%;
 }
+
 ul,
 li{
   list-style:none;
@@ -47,6 +49,7 @@ li{
   height:100vh;
   background-color:#03AAD2;
   font-weight:bold;
+  overflow: auto;
 }
 .main-container{
   width:100%;

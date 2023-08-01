@@ -17,17 +17,21 @@ class PostsController extends Controller
 {
     // 投稿一覧画面表示(検索機能)
     public function show(Request $request){
-        $posts = Post::with('user', 'postComments')->get(); // Postモデルのリレーション先
+        $posts = Post::with('user', 'postComments') ->latest()->get(); // Postモデルと関連するusers・post_commentsテーブルを新しい順で取得
         $categories = MainCategory::get();
         $like = new Like; // Likeモデル使用(値の取り出し)
         $post_comment = new Post; // Postモデル使用(値の取り出し)
         if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->タイトル(post_titleカラム)であいまい検索->または投稿内容(postカラム)であいまい検索→値を取得
-        }else if($request->category_word){ // もし
-            $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get(); //Postモデルと関連するusers・post_commentsテーブルを取得
+            ->orWhere('post', 'like', '%'.$request->keyword.'%')
+            //サブカテゴリー完全一致
+            ->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->タイトル(post_titleカラム)であいまい検索->または投稿内容(postカラム)であいまい検索->値を新しい順で取得
+        }else if($request->category_word){ // もしサブカテゴリーが押されたら
+            $sub_category = $request->category_word; // 送信されたサブカテゴリーを格納
+            $id = SubCategory::where('sub_category', $sub_category)->get('id');// sub_categoriesテーブルのsub_categoryカラムとと$sub_categoryが同じ->sub_categoriesテーブルのidを取得
+
+            $posts = Post::with('user', 'postComments')->subCategories()->wherePivot('sub_category_id', $id)->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->
         }else if($request->like_posts){ // もしいいねした投稿表示ボタンが押されたら(値が送信されたら)、
             $likes = Auth::user()->likePostId()->get('like_post_id'); // ログインユーザーの情報->likesテーブルのlike_user_idカラムとログインユーザーIDが一致している->link_post_idカラムを取得
             $posts = Post::with('user', 'postComments')
@@ -168,15 +172,16 @@ class PostsController extends Controller
 
     // 自分の投稿表示
     public function myBulletinBoard(){
-        $posts = Auth::user()->posts()->get(); // ログインユーザーの投稿を取得
+        $posts = Auth::user()->posts()->latest()->get(); // ログインユーザーの投稿を新しい順で取得
         $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.post_myself', compact('posts', 'like'));
     }
 
     // いいねした投稿表示
     public function likeBulletinBoard(){
-        $like_post_id = Like::with('users')->where('like_user_id', Auth::id())->get('like_post_id')->toArray(); // likesテーブルと関連するusersテーブルを取得。->likesテーブルのlike_user_idカラムとログインユーザーIDが同じ->like_post_idカラムを取得->配列に変換
-        $posts = Post::with('user')->whereIn('id', $like_post_id)->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->値を取得
+        $like_post_id = Like::where('like_user_id', Auth::id())->get('like_post_id')->toArray();
+         // likesテーブルと関連するusersテーブルを取得。->likesテーブルのlike_user_idカラムとログインユーザーIDが同じ->like_post_idカラムを取得->配列に変換
+        $posts = Post::with('user')->whereIn('id', $like_post_id)->latest()->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->新しい順で値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.post_like', compact('posts', 'like'));
     }
@@ -184,9 +189,9 @@ class PostsController extends Controller
     // サブカテゴリー(検索)投稿表示
     public function subCategoryBulletinBoard()
     {
-        $posts = Auth::user()->posts()->get(); // ログインユーザーの投稿を取得
+        $posts = Post::with('user')->whereIn('id', )->latest()->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->新しい順で値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
-        return view('authenticated.bulletinboard.post_myself', compact('posts', 'like'));
+        return view('authenticated.bulletinboard.posts', compact('posts', 'like'));
     }
 
     // いいね登録機能

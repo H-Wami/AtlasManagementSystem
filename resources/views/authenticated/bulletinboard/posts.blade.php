@@ -63,13 +63,12 @@
               <!-- サブカテゴリー表示 -->
               <!-- メインカテゴリーに紐付いているサブカテゴリーを持ってくる $紐付いている元->リレーションメソッド -->
               @foreach($category->subCategories as $sub_category)
-              <input type="submit" name="sub_category_posts" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
+              <input type="submit" name="category_word" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
               @endforeach
         </li>
         @endforeach
       </ul>
     </div>
   </div>
-  <form action="{{ route('like.bulletin.board') }}" method="get" id="likeSearchRequest"></form>
 </div>
 @endsection
