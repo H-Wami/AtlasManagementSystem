@@ -154,6 +154,17 @@ li{
   white-space: pre-wrap;
 }
 
+.category_container input {
+  border: solid 1px #DEE2E6;
+}
+
+.category_container select {
+  border: solid 1px #DEE2E6;
+  -moz-appearance: menulist;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
 /* 掲示板 一覧画面 */
 .detail_container{
   background:#FFF;

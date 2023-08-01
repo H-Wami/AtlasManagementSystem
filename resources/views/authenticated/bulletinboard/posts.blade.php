@@ -48,17 +48,28 @@
         <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
         <input type="submit" value="検索" form="postSearchRequest">
       </div>
+      <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
       <!-- いいねした投稿表示ボタン -->
-      <input type="submit" name="like_posts" class="category_btn" value="いいねした投稿" form="postSearchRequest">
+      <input type="submit" name="like_posts" class="category_btn" value="いいねした投稿" form="likeSearchRequest">
+      <form action="{{ route('like.bulletin.board') }}" method="get" id="likeSearchRequest"></form>
       <!-- 自分の投稿表示ボタン -->
-      <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
+      <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="mySearchRequest">
+      <form action="{{ route('my.bulletin.board') }}" method="get" id="mySearchRequest"></form>
+      <!-- カテゴリー検索 -->
       <ul>
+        <!-- メインカテゴリー表示 -->
         @foreach($categories as $category)
-        <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span></li>
+        <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span>
+              <!-- サブカテゴリー表示 -->
+              <!-- メインカテゴリーに紐付いているサブカテゴリーを持ってくる $紐付いている元->リレーションメソッド -->
+              @foreach($category->subCategories as $sub_category)
+              <input type="submit" name="sub_category_posts" class="category_btn" value="{{ $sub_category->sub_category }}" form="postSearchRequest">
+              @endforeach
+        </li>
         @endforeach
       </ul>
     </div>
   </div>
-  <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
+  <form action="{{ route('like.bulletin.board') }}" method="get" id="likeSearchRequest"></form>
 </div>
 @endsection

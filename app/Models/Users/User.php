@@ -74,6 +74,13 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Users\Subjects', 'subject_users', 'user_id', 'subject_id');// リレーションの定義
     }
 
+    // likesテーブルとリレーション　リレーション定義　1×多
+    // 多側と結合 メソッド複数形 hasMany(対象先のモデル)
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Posts\Like');
+    }
+
     // いいねしているかどうか
     public function is_Like($post_id){
         return Like::where('like_user_id', Auth::id())->where('like_post_id', $post_id)->first(['likes.id']); // likesテーブルのlike_user_idカラムと$user_idが一致している->likesテーブルのlike_post_idカラムと$post_idが一致している-> likesテーブルのIDを取得する

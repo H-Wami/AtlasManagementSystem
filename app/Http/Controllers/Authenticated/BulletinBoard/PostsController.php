@@ -100,7 +100,47 @@ class PostsController extends Controller
 
     // メインカテゴリー作成機能
     public function mainCategoryCreate(Request $request){
-        MainCategory::create(['main_category' => $request->main_category_name]);
+
+        // バリデーション定義・メッセージ
+        $request->validate(
+            [
+                'main_category_name' => 'required|string|max:100|unique:main_categories,main_category'
+            ],
+            [
+                'main_category_name.required' => 'メインカテゴリーは入力必須です。',
+                'main_category_name.max' => 'メインカテゴリーは100文字以下で入力して下さい。',
+                'main_category_name.unique' => '登録済みのメインカテゴリーは登録出来ません。',
+            ]
+        );
+
+        MainCategory::create(['main_category' => $request->main_category_name]); // main_categoriesテーブルに入力された値を保存する
+        return redirect()->route('post.input');
+    }
+
+    // サブカテゴリー作成機能
+    public function subCategoryCreate(Request $request)
+    {
+
+        // バリデーション定義・メッセージ
+        $request->validate(
+            [
+                'main_category_id' => 'required|exists:main_categories,id',
+                'sub_category_name' => 'required|string|max:100|unique:sub_categories,sub_category'
+            ],
+            [
+                'main_category_id.required' => 'メインカテゴリーは入力必須です。',
+                'main_category_id.exists' => 'このメインカテゴリーは登録されていません。',
+
+                'sub_category_name.required' => 'サブカテゴリーは入力必須です。',
+                'sub_category_name.max' => 'サブカテゴリーは100文字以下で入力して下さい。',
+                'sub_category_name.unique' => '登録済みのサブカテゴリーは登録出来ません。',
+            ]
+        );
+
+        SubCategory::create([ // sub_categoriesテーブルに入力された値を保存する
+            'main_category_id' => $request->main_category_id,
+            'sub_category' => $request->sub_category_name
+        ]);
         return redirect()->route('post.input');
     }
 
@@ -136,9 +176,17 @@ class PostsController extends Controller
     // いいねした投稿表示
     public function likeBulletinBoard(){
         $like_post_id = Like::with('users')->where('like_user_id', Auth::id())->get('like_post_id')->toArray(); // likesテーブルと関連するusersテーブルを取得。->likesテーブルのlike_user_idカラムとログインユーザーIDが同じ->like_post_idカラムを取得->配列に変換
-        $posts = Post::with('user')->whereIn('id', $like_post_id)->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと
+        $posts = Post::with('user')->whereIn('id', $like_post_id)->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.post_like', compact('posts', 'like'));
+    }
+
+    // サブカテゴリー(検索)投稿表示
+    public function subCategoryBulletinBoard()
+    {
+        $posts = Auth::user()->posts()->get(); // ログインユーザーの投稿を取得
+        $like = new Like; // Likeモデル使用(値の取り出し)
+        return view('authenticated.bulletinboard.post_myself', compact('posts', 'like'));
     }
 
     // いいね登録機能

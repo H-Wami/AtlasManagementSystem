@@ -57,10 +57,13 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             Route::get('/bulletin_board/like', 'PostsController@likeBulletinBoard')->name('like.bulletin.board');
             // 自分の投稿表示
             Route::get('/bulletin_board/my_post', 'PostsController@myBulletinBoard')->name('my.bulletin.board');
+            // サブカテゴリー(検索)投稿表示
+            Route::get('/bulletin_board/sub_category', 'PostsController@subCategoryBulletinBoard')->name('sub.category.bulletin.board');
             // 新規投稿作成機能
             Route::post('/bulletin_board/create', 'PostsController@postCreate')->name('post.create');
             // メインカテゴリー作成機能
             Route::post('/create/main_category', 'PostsController@mainCategoryCreate')->name('main.category.create');
+            // サブカテゴリー作成機能
             Route::post('/create/sub_category', 'PostsController@subCategoryCreate')->name('sub.category.create');
             // 投稿詳細画面表示
             Route::get('/bulletin_board/post/{id}', 'PostsController@postDetail')->name('post.detail');
