@@ -3,8 +3,10 @@
 @section('content')
 <p>ユーザー検索</p>
 <div class="search_content w-100 border d-flex">
+  <!-- ユーザー一覧 -->
   <div class="reserve_users_area">
     @foreach($users as $user)
+    <!-- ユーザー情報ひとまとめ -->
     <div class="border one_person">
       <div>
         <span>ID : </span><span>{{ $user->id }}</span>
@@ -42,20 +44,26 @@
         @endif
       </div>
       <div>
+        <!-- もしユーザーの権限が4(生徒)だったら選択科目を表示 -->
         @if($user->role == 4)
         <span>選択科目 :</span>
+        <!-- ユーザーに紐付いている選択科目(教科)を持ってくる $紐付いている元->リレーションメソッド -->
+        @foreach($user->subjects as $subject)
+        <span>{{ $subject->subject }}</span>
+        @endforeach
         @endif
       </div>
     </div>
     @endforeach
   </div>
+  <!-- ユーザー検索 -->
   <div class="search_area w-25 border">
     <div class="">
       <div>
         <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
       </div>
       <div>
-        <lavel>カテゴリ</lavel>
+        <label>カテゴリ</label>
         <select form="userSearchRequest" name="category">
           <option value="name">名前</option>
           <option value="id">社員ID</option>
@@ -88,6 +96,13 @@
           </div>
           <div class="selected_engineer">
             <label>選択科目</label>
+            @foreach($subjects as $subject)
+            <!-- 選択科目追加(新規登録画面参照) -->
+            <div class="">
+              <input type="checkbox" name="subject[]" value="{{ $subject->id }}">
+              <label>{{ $subject->subject }}</label>
+            </div>
+            @endforeach
           </div>
         </div>
       </div>
