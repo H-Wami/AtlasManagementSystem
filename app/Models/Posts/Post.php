@@ -30,7 +30,7 @@ class Post extends Model
     // sub_categoryテーブルとリレーション　リレーション定義　多×多
     // (関係するモデル、中間テーブル名、接続元(自分)の中間テーブルカラム、接続したい(相手)の中間テーブルカラム)
     public function subCategories(){
-        return $this->belongsToMany('App\Models\Categories\SubCategory', 'post_sub_categories', 'post_id', 'sub_category_id')->withPivot('sub_category_id');// リレーションの定義
+        return $this->belongsToMany('App\Models\Categories\SubCategory', 'post_sub_categories', 'post_id', 'sub_category_id');// リレーションの定義
     }
 
     // コメント数

@@ -22,16 +22,18 @@ class PostsController extends Controller
         $like = new Like; // Likeモデル使用(値の取り出し)
         $post_comment = new Post; // Postモデル使用(値の取り出し)
         if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
-            $posts = Post::with('user', 'postComments')
-            ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')
-            //サブカテゴリー完全一致
-            ->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->タイトル(post_titleカラム)であいまい検索->または投稿内容(postカラム)であいまい検索->値を新しい順で取得
+            $posts = Post::with('user', 'postComments') //Postモデルと関連するusers・post_commentsテーブルを取得
+            ->where('post_title', 'like', '%'.$request->keyword.'%') //タイトル(post_titleカラム)であいまい検索
+            ->orWhere('post', 'like', '%'.$request->keyword.'%') // または投稿内容(postカラム)であいまい検索
+            ->orWhereHas('subCategories', function ($q) use ($request) {
+                $q->where('sub_category', $request->keyword); //またはサブカテゴリー完全一致検索
+            })->latest()->get(); // 値を新しい順で取得
         }else if($request->category_word){ // もしサブカテゴリーが押されたら
-            $sub_category = $request->category_word; // 送信されたサブカテゴリーを格納
-            $id = SubCategory::where('sub_category', $sub_category)->get('id');// sub_categoriesテーブルのsub_categoryカラムとと$sub_categoryが同じ->sub_categoriesテーブルのidを取得
+            $sub_category = $request->category_word; // 送信されたsub_categoriesテーブルのsub_categoryの値を格納
 
-            $posts = Post::with('user', 'postComments')->subCategories()->wherePivot('sub_category_id', $id)->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->
+            $posts = Post::with('user', 'postComments')->whereHas('subCategories', function ($q) use ($sub_category){
+                $q->where('sub_category', $sub_category);
+            })->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->リレーション先subCategoriesの条件で検索 sub_categoryカラムと$sub_categoryが同じ->新しい順で投稿を取得
         }else if($request->like_posts){ // もしいいねした投稿表示ボタンが押されたら(値が送信されたら)、
             $likes = Auth::user()->likePostId()->get('like_post_id'); // ログインユーザーの情報->likesテーブルのlike_user_idカラムとログインユーザーIDが一致している->link_post_idカラムを取得
             $posts = Post::with('user', 'postComments')

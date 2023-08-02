@@ -45,7 +45,7 @@
       <div class=""><a href="{{ route('post.input') }}">投稿</a></div>
       <!-- 検索フォーム -->
       <div class="">
-        <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
+        <input type="text" placeholder="キーワードを検索" name="keyword" class="" form="postSearchRequest">
         <input type="submit" value="検索" form="postSearchRequest">
       </div>
       <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
