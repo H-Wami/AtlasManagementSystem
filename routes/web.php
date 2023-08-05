@@ -79,7 +79,9 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
         Route::namespace('Users')->group(function(){
             // ユーザー検索画面表示
             Route::get('/show/users', 'UsersController@showUsers')->name('user.show');
+            // ユーザー情報詳細画面表示
             Route::get('/user/profile/{id}', 'UsersController@userProfile')->name('user.profile');
+            // 選択科目編集機能
             Route::post('/user/profile/edit', 'UsersController@userEdit')->name('user.edit');
         });
     });

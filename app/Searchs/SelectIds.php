@@ -7,28 +7,28 @@ class SelectIds implements DisplayUsers{
 
   // 改修課題：選択科目の検索機能
   public function resultUsers($keyword, $category, $updown, $gender, $role, $subjects){
-    if(is_null($gender)){
-      $gender = ['1', '2'];
-    }else{
-      $gender = array($gender);
+    if(is_null($gender)){ // もし性別の値が空ならば
+      $gender = ['1', '2', '3'];
+    }else{ // それ以外ならば(値があれば)
+      $gender = array($gender); // 配列に変換
     }
-    if(is_null($role)){
+    if(is_null($role)){ // もし権限の値が空ならば
       $role = ['1', '2', '3', '4'];
-    }else{
-      $role = array($role);
+    }else{ // それ以外ならば(値があれば)
+      $role = array($role); // 配列に変換
     }
 
-    if(is_null($keyword)){
-      $users = User::with('subjects')
-      ->whereIn('sex', $gender)
-      ->whereIn('role', $role)
-      ->orderBy('id', $updown)->get();
-    }else{
-      $users = User::with('subjects')
-      ->where('id', $keyword)
-      ->whereIn('sex', $gender)
-      ->whereIn('role', $role)
-      ->orderBy('id', $updown)->get();
+    if(is_null($keyword)){ // もし検索ワードの値が空ならば
+      $users = User::with('subjects')// Userモデルと関連するsubjectsテーブルを取得
+      ->whereIn('sex', $gender) // usersテーブルのsexカラムが$genderと同じ
+      ->whereIn('role', $role) // usersテーブルのroleカラムが$roleと同じ
+      ->orderBy('id', $updown)->get(); // idの$updown(昇順か降順)で値を取得する
+    }else{ // それ以外ならば(値があれば)
+      $users = User::with('subjects') // Userモデルと関連するsubjectsテーブルを取得
+      ->where('id', $keyword) // usersテーブルのidカラムが$keywordと同じ
+      ->whereIn('sex', $gender) // usersテーブルのsexカラムが$genderと同じ
+      ->whereIn('role', $role) // usersテーブルのroleカラムが$roleと同じ
+      ->orderBy('id', $updown)->get(); // idの$updown(昇順か降順)で値を取得する
     }
     return $users;
   }

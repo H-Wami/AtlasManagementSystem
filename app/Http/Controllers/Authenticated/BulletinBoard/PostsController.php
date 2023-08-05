@@ -18,7 +18,7 @@ class PostsController extends Controller
     // 投稿一覧画面表示(検索機能)
     public function show(Request $request){
         $posts = Post::with('user', 'postComments') ->latest()->get(); // Postモデルと関連するusers・post_commentsテーブルを新しい順で取得
-        $categories = MainCategory::get();
+        $categories = MainCategory::get(); // MainCategoryモデルの値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
         $post_comment = new Post; // Postモデル使用(値の取り出し)
         if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
