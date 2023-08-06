@@ -12,15 +12,15 @@ class CalendarWeekDay{
   }
 
   function getClassName(){
-    return "day-" . strtolower($this->carbon->format("D"));
+    return "day-" . strtolower($this->carbon->format("D")); // format()関数「D」指定=曜日を省略形式で取得 ex.day-sun(日),day-mon(月)
   }
 
   function render(){
-    return '<p class="day">' . $this->carbon->format("j") . '日</p>';
+    return '<p class="day">' . $this->carbon->format("j") . '日</p>'; // format()関数「j」指定=先頭にゼロをつけない形式で日付を取得 ex.15
   }
 
   function everyDay(){
-    return $this->carbon->format("Y-m-d");
+    return $this->carbon->format("Y-m-d"); //日付のフォーマット
   }
 
   function dayPartCounts($ymd){

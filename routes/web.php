@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
         });
         Route::namespace('Calendar')->group(function(){
             Route::namespace('General')->group(function(){
-                // スクール予約ページ画面表示
+                // スクール予約画面表示
                 Route::get('/calendar/{user_id}', 'CalendarsController@show')->name('calendar.general.show');
                 Route::post('/reserve/calendar', 'CalendarsController@reserve')->name('reserveParts');
                 Route::post('/delete/calendar', 'CalendarsController@delete')->name('deleteParts');

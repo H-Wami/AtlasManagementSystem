@@ -13,7 +13,7 @@ class CalendarWeekDay{
   }
 
   function getClassName(){
-    return "day-" . strtolower($this->carbon->format("D"));
+    return "day-" . strtolower($this->carbon->format("D")); // format()関数「D」指定=曜日を省略形式で取得 ex.day-sun(日),day-mon(月)
   }
 
   function pastClassName(){
@@ -25,9 +25,10 @@ class CalendarWeekDay{
    */
 
    function render(){
-     return '<p class="day">' . $this->carbon->format("j"). '日</p>';
+     return '<p class="day">' . $this->carbon->format("j"). '日</p>'; // format()関数「j」指定=先頭にゼロをつけない形式で日付を取得 ex.15
    }
 
+   // 予約する選択肢
    function selectPart($ymd){
      $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
      $two_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
@@ -75,7 +76,7 @@ class CalendarWeekDay{
    }
 
    function everyDay(){
-     return $this->carbon->format('Y-m-d');
+     return $this->carbon->format('Y-m-d'); //日付のフォーマット
    }
 
    function authReserveDay(){
@@ -83,7 +84,7 @@ class CalendarWeekDay{
    }
 
    function authReserveDate($reserveDate){
-     return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate);
+     return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate); //ログインユーザー情報取得->ルーティングのメソッド->setting_reserveカラムと$reserveDateが同じものを持ってくる
    }
 
 }
