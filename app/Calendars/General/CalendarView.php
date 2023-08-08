@@ -67,7 +67,10 @@ class CalendarView{
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">' . $reservePart . ' 参加</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{ // もし、予約している日付が今日以降の日付ならば
-            $html[] = '<button type="submit" class="reserve-modal-open btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '" setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '" setting_part="' . $day->authReserveDate($day->everyDay())->first()->setting_part . '">' . $reservePart . '</button>'; // キャンセルにつながるボタン表示
+            $html[] = '<button type="submit" class="reserve-modal-open btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '"
+            setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '"
+            setting_part="' . $day->authReserveDate($day->everyDay())->first()->setting_part . '" setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '"
+            id="' . $day->authReserveDate($day->everyDay())->first()->id . '">' . $reservePart . '</button>'; // キャンセルにつながるボタン表示
             $html[] = '<input type="hidden" name="getPart[]" value="" form="deleteParts">';
           }
         // もし予約が入ってなかったら
@@ -88,8 +91,9 @@ class CalendarView{
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
+    // 予約登録フォーム
     $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
-    // 予約削除フォーム
+    // 予約削除(キャンセル)フォーム
     $html[] = '<form action="/delete/calendar" method="post" id="deleteParts">'.csrf_field().'</form>';
     return implode('', $html);
   }

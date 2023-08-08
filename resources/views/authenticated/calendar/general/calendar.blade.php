@@ -32,9 +32,11 @@
         <span class="reserve_part"></span>部
       </span>
       <span class="modal_text">上記の予約をキャンセルしてもよろしいですか？</span>
+      <!-- ボタンひとまとめ -->
       <div class="modal_btn_contents">
-        <a class="js-modal-close btn btn-primary d-inline-block" href="">閉じる</a>
-        <input type="submit" class="btn btn-danger d-block" value="キャンセル">
+        <a class="js-modal-close btn btn-primary" href="">閉じる</a>
+        <input type="submit" class="btn btn-danger" value="キャンセル" form="deleteParts">
+        <input type="hidden" class="reserve_modal_hidden" name="id" form="deleteParts" value="">
       </div>
     </div>
   </div>

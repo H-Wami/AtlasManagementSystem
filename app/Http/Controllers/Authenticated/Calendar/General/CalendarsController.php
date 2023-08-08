@@ -20,6 +20,7 @@ class CalendarsController extends Controller
         return view('authenticated.calendar.general.calendar', compact('calendar'));
     }
 
+    // スクール予約登録機能
     public function reserve(Request $request){
         DB::beginTransaction();
         try{
@@ -36,5 +37,14 @@ class CalendarsController extends Controller
             DB::rollback();
         }
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
+    }
+
+    // スクール予約削除(キャンセル)機能
+    public function delete(Request $request){
+        $reserve_setting_id = $request->id; // 予約枠のid格納
+        $user_id = Auth::id(); // ログインユーザーID格納
+        $reserve = ReserveSettings::find($reserve_setting_id); // reserve_settingsテーブルから$reserve_setting_idに該当する値を格納
+        $reserve->users()->detach($user_id); // $reserve->リレーションメソッド->$user_idの中間テーブルの値を削除
+        return redirect()->route('calendar.general.show', ['user_id' => $user_id]);
     }
 }
