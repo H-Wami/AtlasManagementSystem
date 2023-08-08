@@ -36,7 +36,9 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             Route::namespace('General')->group(function(){
                 // スクール予約画面表示
                 Route::get('/calendar/{user_id}', 'CalendarsController@show')->name('calendar.general.show');
+                // スクール予約登録機能
                 Route::post('/reserve/calendar', 'CalendarsController@reserve')->name('reserveParts');
+                // スクール予約削除(キャンセル)機能
                 Route::post('/delete/calendar', 'CalendarsController@delete')->name('deleteParts');
             });
             Route::namespace('Admin')->group(function(){

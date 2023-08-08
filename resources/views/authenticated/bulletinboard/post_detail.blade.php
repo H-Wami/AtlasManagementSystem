@@ -40,9 +40,9 @@
           <span class="ml-5">{{ $post->created_at }}</span>
         </div>
         <!-- タイトル -->
-        <div class="detsail_post_title">{{ $post->post_title }}</div>
+        <div class="detail_post_title">{{ $post->post_title }}</div>
         <!-- 投稿内容 -->
-        <div class="mt-3 detsail_post">{{ $post->post }}</div>
+        <div class="mt-3 detail_post">{{ $post->post }}</div>
       </div>
 
       <!-- 投稿に対するコメント表示 -->
