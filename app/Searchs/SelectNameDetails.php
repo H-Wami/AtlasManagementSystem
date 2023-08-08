@@ -29,7 +29,7 @@ class SelectNameDetails implements DisplayUsers{
       ->whereIn('role', $role); // usersテーブルのroleカラムが$roleと同じ
     })
     ->whereHas('subjects', function($q) use ($subjects){ // リレーション先のsubjectsの条件で検索
-      $q->where('subjects.id', $subjects); // idカラムと$subjectsが同じ
+      $q->whereIn('subjects.id', $subjects); // idカラムと$subjectsが同じ whereからwhereInに変更(複数の値で検索する為)
     })
     ->orderBy('over_name_kana', $updown)->get(); // 姓の$updown(昇順か降順)で値を取得する
     return $users;
