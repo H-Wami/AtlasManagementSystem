@@ -105,6 +105,7 @@ li{
   width: 50%;
   margin: 0 auto 15px auto;
   font-size: 15px;
+  display: block;
 }
 
 .modal_btn_contents {

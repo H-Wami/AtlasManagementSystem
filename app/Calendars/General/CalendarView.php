@@ -67,7 +67,7 @@ class CalendarView{
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">' . $reservePart . ' 参加</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{ // もし、予約している日付が今日以降の日付ならば
-            $html[] = '<button type="submit" class=" reserve-modal-open btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>'; // キャンセルのボタンを出す
+            $html[] = '<button type="submit" class="reserve-modal-open btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '" setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '" setting_part="' . $day->authReserveDate($day->everyDay())->first()->setting_part . '">' . $reservePart . '</button>'; // キャンセルにつながるボタン表示
             $html[] = '<input type="hidden" name="getPart[]" value="" form="deleteParts">';
           }
         // もし予約が入ってなかったら
@@ -89,24 +89,8 @@ class CalendarView{
     $html[] = '</table>';
     $html[] = '</div>';
     $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
-    // 予約削除モーダル中身
-    $html[] = '<div class="modal js-modal">';
-    $html[] = '<div class="modal__bg js-modal-close"></div>';
-    $html[] = '<div class="modal__content">';
+    // 予約削除フォーム
     $html[] = '<form action="/delete/calendar" method="post" id="deleteParts">'.csrf_field().'</form>';
-    $html[] = '<div class="reserve_modal_content">';
-    $html[] = '<p class="modal_text">予約日:</p>';
-    $html[] = '<p class="modal_text">時間:</p>';
-    $html[] = '<p class="modal_text">上記の予約をキャンセルしてもよろしいですか？</p>';
-    $html[] = '<div class="modal_btn_contents">';
-    $html[] = '<a class="js-modal-close btn btn-primary d-inline-block" href="">閉じる</a>';
-    // input type='hidden'?
-    $html[] = '<input type="submit" class="btn btn-danger d-block" value="キャンセル">';
-    $html[] = '</div>';
-    $html[] = '</div>';
-    $html[] = '</div>';
-    $html[] = '</div>';
-    $html[] = '</div>';
     return implode('', $html);
   }
 

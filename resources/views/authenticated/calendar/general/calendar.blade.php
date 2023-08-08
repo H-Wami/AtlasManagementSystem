@@ -19,4 +19,24 @@
     </div>
   </div>
 </div>
+
+<!-- 予約削除モーダル中身 -->
+<div class="modal js-modal">
+  <div class="modal__bg js-modal-close"></div>
+  <div class="modal__content">
+    <div class="reserve_modal_content">
+      <span class="modal_text">予約日:
+        <span class="reserve_day"></span>
+      </span>
+      <span class="modal_text">時間:リモ
+        <span class="reserve_part"></span>部
+      </span>
+      <span class="modal_text">上記の予約をキャンセルしてもよろしいですか？</span>
+      <div class="modal_btn_contents">
+        <a class="js-modal-close btn btn-primary d-inline-block" href="">閉じる</a>
+        <input type="submit" class="btn btn-danger d-block" value="キャンセル">
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
