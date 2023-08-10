@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Authenticated\Calendar\General;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Calendars\General\CalendarView;
+use App\Calendars\General\CalendarView; // General
 use App\Models\Calendars\ReserveSettings;
 use App\Models\Calendars\Calendar;
 use App\Models\USers\User;

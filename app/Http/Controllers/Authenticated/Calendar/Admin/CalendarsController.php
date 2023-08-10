@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Authenticated\Calendar\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Calendars\Admin\CalendarView;
+use App\Calendars\Admin\CalendarView; //Admin
 use App\Calendars\Admin\CalendarSettingView;
 use App\Models\Calendars\ReserveSettings;
 use App\Models\Calendars\Calendar;
@@ -16,7 +16,8 @@ class CalendarsController extends Controller
 {
     // スクール予約確認画面表示
     public function show(){
-        $calendar = new CalendarView(time());
+        $calendar = new CalendarView(time()); // CalenderViewモデル使用(値の取り出し)
+        // time()で現在時刻を渡して今月のカレンダーを用意
         return view('authenticated.calendar.admin.calendar', compact('calendar'));
     }
 

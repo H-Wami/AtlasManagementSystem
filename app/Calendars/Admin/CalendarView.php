@@ -3,6 +3,7 @@ namespace App\Calendars\Admin;
 use Carbon\Carbon; // 日付を使うときのライブラリ
 use App\Models\Users\User;
 
+// スクール予約確認ページ
 class CalendarView{
   private $carbon;
 
@@ -43,7 +44,7 @@ class CalendarView{
         $startDay = $this->carbon->format("Y-m-01"); // 初日
         $toDay = $this->carbon->format("Y-m-d"); // 本日
         // もし、過去の日付ならば
-        if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+        if($startDay <= $day->everyDay() && $toDay > $day->everyDay()){ // >=$day->everyDay()から変更
           $html[] = '<td class="past-day border ' . $day->getClassName() . '">';
         }else{ // それ以外の日付は(今日以降)
           $html[] = '<td class="border '.$day->getClassName().'">'; //日カレンダーオブジェクトを使ってHTMLのクラス名出力

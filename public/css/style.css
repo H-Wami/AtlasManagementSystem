@@ -169,9 +169,28 @@ li{
 .calendar-td{
   min-width:100px;
 }
+
+.day_part_container{
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.day_part_contents{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .day_part{
   color:#494949;
   font-size:12px;
+  padding-top: 0.25rem;
+  margin: 0 auto;
+
 }
 .adjust-table{
   width:70% !important;

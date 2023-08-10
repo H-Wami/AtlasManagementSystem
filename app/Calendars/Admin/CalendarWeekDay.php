@@ -25,19 +25,32 @@ class CalendarWeekDay{
 
   function dayPartCounts($ymd){
     $html = [];
-    $one_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
-    $two_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
-    $three_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
+    $one_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first(); // ReserveSettingsモデルと関連するusersテーブルを取得->setting_reserveカラムと$ymdが同じ->setting_partカラムが1の情報を格納
+    $two_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first(); // setting_partカラムが2の情報を格納
+    $three_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first(); // setting_partカラムが3の情報を格納
 
-    $html[] = '<div class="text-left">';
+    // 予約出来る部と予約している人数表示
+    $html[] = '<div class="day_part_container">';
+    // $one_partの場合
     if($one_part){
-      $html[] = '<p class="day_part m-0 pt-1">1部</p>';
+      $html[] = '<div class="day_part_contents">';
+      $html[] = '<p class="day_part">1部</p>';
+      $html[] = '<p class="day_part">' . $one_part->users($one_part->id)->count() . '</p>'; // $one_partの値取得->リレーションメソッド使用->count関数で各部の予約している人数を取得
+      $html[] = '</div>';
     }
+    // $two_partの場合
     if($two_part){
-      $html[] = '<p class="day_part m-0 pt-1">2部</p>';
+      $html[] = '<div class="day_part_contents">';
+      $html[] = '<p class="day_part">2部</p>';
+      $html[] = '<p class="day_part">' . $two_part->users($two_part->id)->count() . '</p>';
+      $html[] = '</div>';
     }
+    // $three_partの場合
     if($three_part){
-      $html[] = '<p class="day_part m-0 pt-1">3部</p>';
+      $html[] = '<div class="day_part_contents">';
+      $html[] = '<p class="day_part">3部</p>';
+      $html[] = '<p class="day_part">' . $three_part->users($three_part->id)->count() . '</p>';
+      $html[] = '</div>';
     }
     $html[] = '</div>';
 

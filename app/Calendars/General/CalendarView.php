@@ -7,6 +7,7 @@ use Auth;
 // スクール予約ページ
 class CalendarView{
 
+  // コンストラクタで受け取った日付を元にCarbonオブジェクト作成
   private $carbon;
   function __construct($date){
     $this->carbon = new Carbon($date);
