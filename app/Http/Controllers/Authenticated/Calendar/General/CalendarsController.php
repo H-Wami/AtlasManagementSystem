@@ -24,8 +24,8 @@ class CalendarsController extends Controller
     public function reserve(Request $request){
         DB::beginTransaction(); //トランザクション(一連の処理のまとめ)開始
         try{ //例外が起こる可能性のある処理
-            $getPart = $request->getPart; //予約選択の配列格納(部) ex.19 => 3 個数変化する
-            $getDate = $request->getData; // 日付のフォーマット配列格納 ex.19 => "2023-08-20" 個数変化なし
+            $getPart = $request->getPart; //予約選択の配列格納(部)
+            $getDate = $request->getData; // 日付のフォーマット配列格納
             $reserveDays = array_filter(array_combine($getDate, $getPart)); // 2つの配列を結合する
             foreach($reserveDays as $key => $value){
                 $reserve_settings = ReserveSettings::where('setting_reserve', $key)->where('setting_part', $value)->first(); // ReserveSettingsモデルからsetting_reserveカラムと$keyが同じ->setting_partカラムと$valueが同じ->取得

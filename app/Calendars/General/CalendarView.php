@@ -71,7 +71,7 @@ class CalendarView{
             setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '"
             setting_part="' . $day->authReserveDate($day->everyDay())->first()->setting_part . '" setting_reserve="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '"
             id="' . $day->authReserveDate($day->everyDay())->first()->id . '">' . $reservePart . '</button>'; // キャンセルにつながるボタン表示
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="deleteParts">';
+            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">'; // deletePartsから修正
           }
         // もし予約が入ってなかったら
         }else{
