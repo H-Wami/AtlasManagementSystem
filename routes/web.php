@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
             Route::namespace('Admin')->group(function(){
                 // スクール予約確認画面表示
                 Route::get('/calendar/{user_id}/admin', 'CalendarsController@show')->name('calendar.admin.show');
+                // スクール予約詳細画面表示
                 Route::get('/calendar/{date}/{part}', 'CalendarsController@reserveDetail')->name('calendar.admin.detail');
                 // スクール枠登録画面表示
                 Route::get('/setting/{user_id}/admin', 'CalendarsController@reserveSettings')->name('calendar.admin.setting');

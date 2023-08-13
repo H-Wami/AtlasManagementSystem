@@ -34,21 +34,21 @@ class CalendarWeekDay{
     // $one_partの場合
     if($one_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<p class="day_part">1部</p>';
+      $html[] = '<a href="" class="day_part">1部</a>';
       $html[] = '<p class="day_part">' . $one_part->users($one_part->id)->count() . '</p>'; // $one_partの値取得->リレーションメソッド使用->count関数で各部の予約している人数を取得
       $html[] = '</div>';
     }
     // $two_partの場合
     if($two_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<p class="day_part">2部</p>';
+      $html[] = '<a href="" class="day_part">2部</a>';
       $html[] = '<p class="day_part">' . $two_part->users($two_part->id)->count() . '</p>';
       $html[] = '</div>';
     }
     // $three_partの場合
     if($three_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<p class="day_part">3部</p>';
+      $html[] = '<a href="" class="day_part">3部</a>';
       $html[] = '<p class="day_part">' . $three_part->users($three_part->id)->count() . '</p>';
       $html[] = '</div>';
     }
