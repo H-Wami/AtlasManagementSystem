@@ -23,16 +23,17 @@ class CalendarsController extends Controller
 
     // スクール予約詳細画面表示
     public function reserveDetail($date, $part){
-        $reservePersons = ReserveSettings::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get();
+        $reservePersons = ReserveSettings::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get(); // ReserveSettingsテーブルと関連するusersテーブルを取得->setting_reserveカラムと$dateが同じ->setting_partカラムと$partが同じ->取得
         return view('authenticated.calendar.admin.reserve_detail', compact('reservePersons', 'date', 'part'));
     }
 
-    // スクール枠登録画面表示
+    // スクール予約枠登録画面表示
     public function reserveSettings(){
         $calendar = new CalendarSettingView(time());
         return view('authenticated.calendar.admin.reserve_setting', compact('calendar'));
     }
 
+    // スクール予約枠更新(登録)機能
     public function updateSettings(Request $request){
         $reserveDays = $request->input('reserve_day');
         foreach($reserveDays as $day => $parts){

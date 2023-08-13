@@ -186,12 +186,18 @@ li{
 }
 
 .day_part{
+  font-size: 14px;
+  padding-top: 0.25rem;
+  margin: 0 auto;
+}
+
+.day_part_count{
   color:#494949;
   font-size:12px;
   padding-top: 0.25rem;
   margin: 0 auto;
-
 }
+
 .adjust-table{
   width:70% !important;
 }

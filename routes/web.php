@@ -46,8 +46,9 @@ Route::group(['middleware' => ['auth']], function(){ //'auth'に[]をつけて�
                 Route::get('/calendar/{user_id}/admin', 'CalendarsController@show')->name('calendar.admin.show');
                 // スクール予約詳細画面表示
                 Route::get('/calendar/{date}/{part}', 'CalendarsController@reserveDetail')->name('calendar.admin.detail');
-                // スクール枠登録画面表示
+                // スクール予約枠登録画面表示
                 Route::get('/setting/{user_id}/admin', 'CalendarsController@reserveSettings')->name('calendar.admin.setting');
+                // スクール予約枠更新(登録)機能
                 Route::post('/setting/update/admin', 'CalendarsController@updateSettings')->name('calendar.admin.update');
             });
         });
