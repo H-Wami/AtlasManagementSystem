@@ -6,9 +6,19 @@
 }
 
 /* 共通パーツ */
+
+html{
+  height: 100vh;
+  font-size: 16px;
+  overflow-y: scroll;
+}
+
 /* body */
 .all_content{
   background:#ECF1F6;
+  height: 100%;
+  position: relative;
+  font-size: 1rem;
 }
 
 ul,
