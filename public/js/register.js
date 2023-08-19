@@ -1,17 +1,17 @@
 $(function () {
-  $(document).on('click', '.other_role', function () {
+  $(document).on('click', '.other_role', function () { // 生徒の役職をクリックすると
     $('.select_teacher').removeClass('d-none');
-  });
-  $(document).on('click', '.admin_role', function () {
+  }); // 選択科目を表示させる(d-noneクラス無くす)
+  $(document).on('click', '.admin_role', function () { // 講師の役職をクリックすると
     $('.select_teacher').addClass('d-none');
-  });
+  }); // 選択科目は表示されない(d-noneクラスを与える)
 
   $(document).on('click keyup change', function () {
     var over_name = $('.over_name').val().length;
-    if (over_name >= 1) {
-      $('.over_name').addClass('success_name');
-    } else {
-      $('.over_name').removeClass('success_name');
+    if (over_name >= 1) { // 1文字以上入力されていたら
+      $('.over_name').addClass('success_name'); // ()クラス名を与える
+    } else { // 入力されてなかったら
+      $('.over_name').removeClass('success_name'); //()クラスを与えない
     }
 
     var over_name_kana = $('.over_name_kana').val().length;
@@ -56,7 +56,7 @@ $(function () {
       $('.password_confirmation').removeClass('success_password_confirm');
     }
 
-    var sex = $('input:radio[name="sex"]:checked').val();
+    var sex = $('input:radio[name="sex"]:checked').val(); // name属性sexのラジオボタンが押されたら
     if (sex > 0) {
       $('.sex').addClass('success_sex');
     } else {
@@ -64,7 +64,7 @@ $(function () {
     }
 
     var old_year = $('.old_year').val();
-    if (old_year !== 'none') {
+    if (old_year !== 'none') { // 生年月日がnoneではなければ
       $('.old_year').addClass('success_year');
     } else {
       $('.old_year').removeClass('success_year');

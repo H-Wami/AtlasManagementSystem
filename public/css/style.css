@@ -6,7 +6,6 @@
 }
 
 /* 共通パーツ */
-
 html{
   height: 100vh;
   font-size: 16px;
@@ -129,7 +128,7 @@ select{
   background-color: #FFF;
   border-radius: 10px;
   box-shadow: 2px 2px 4px #D3D3D3;
-  padding: 3rem 30px;
+  padding: 1rem 30px;
 }
 
 .sex_contents {

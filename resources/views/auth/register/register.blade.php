@@ -187,16 +187,16 @@
           <label class="d-block m-0" style="font-size:13px">役職</label>
           <div class="select_contents">
             <label style="font-size:13px">
-              <input type="radio" name="role" class="admin_role radio" value="1">教師(国語)
+              <input type="radio" name="role" class="admin_role role radio" value="1">教師(国語)
             </label>
             <label style="font-size:13px">
-              <input type="radio" name="role" class="admin_role radio" value="2">教師(数学)
+              <input type="radio" name="role" class="admin_role role radio" value="2">教師(数学)
             </label>
             <label style="font-size:13px">
-              <input type="radio" name="role" class="admin_role radio" value="3">教師(英語)
+              <input type="radio" name="role" class="admin_role role radio" value="3">教師(英語)
             </label>
             <label style="font-size:13px" class="other_role">
-              <input type="radio" name="role" class="other_role radio" value="4">生徒
+              <input type="radio" name="role" class="other_role role radio" value="4">生徒
             </label>
           </div>
         </div>
