@@ -1,17 +1,16 @@
 @extends('layouts.sidebar')
 
 @section('content')
-<div class="board_area w-100 border m-auto d-flex">
+<div class="board_area w-100 m-auto d-flex">
   <!-- 投稿一覧 -->
-  <div class="post_view w-75 mt-5">
-    <p class="w-75 m-auto">投稿一覧</p>
+  <div class="post_view">
     @foreach($posts as $post)
     <!-- 投稿ひとまとめ -->
-    <div class="post_area border w-75 m-auto p-3">
+    <div class="post_area w-75 p-3">
       <!-- 投稿者名 -->
-      <p><span>{{ $post->user->over_name }}</span><span class="ml-3">{{ $post->user->under_name }}</span>さん</p>
+      <p class="contributor"><span>{{ $post->user->over_name }}</span><span class="ml-3">{{ $post->user->under_name }}</span>さん</p>
       <!-- タイトル -->
-      <p><a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a></p>
+      <p><a href="{{ route('post.detail', ['id' => $post->id]) }}" class="post_title">{{ $post->post_title }}</a></p>
       <!-- 下端コンテンツひとまとめ -->
       <div class="post_bottom_area d-flex">
         <!-- サブカテゴリー -->
@@ -22,16 +21,16 @@
         <div class="d-flex post_status">
           <!-- コメント吹き出し -->
           <div class="mr-5">
-            <i class="fa fa-comment"></i><span class="">{{ $post->commentCounts($post->id)->count() }}</span><!-- $postの値取得->commentCountsメソッド使用->count関数で各投稿のコメントの数を取得 -->
+            <i class="fa fa-comment"></i><span class="post_counts">{{ $post->commentCounts($post->id)->count() }}</span><!-- $postの値取得->commentCountsメソッド使用->count関数で各投稿のコメントの数を取得 -->
           </div>
           <!-- いいねハートマーク -->
           <div>
             <!-- もし、ログインユーザーがいいねしていたら、いいね解除マークを表示する -->
             @if(Auth::user()->is_Like($post->id))
-            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
+            <p class="m-0"><i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i><span class="post_counts">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
             <!-- いいねしていなければ、いいね実行マークを表示する -->
             @else
-            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="like_counts{{ $post->id }}">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
+            <p class="m-0"><i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i><span class="post_counts">{{ $like->likeCounts($post->id) }}</span></p><!-- モデルをインスタンス化->likeCountsメソッドで各投稿のいいねの数を取得。 -->
             @endif
           </div>
         </div>
@@ -39,10 +38,14 @@
     </div>
     @endforeach
   </div>
-  <div class="other_area border w-25">
-    <div class="border m-4">
+  <div class="other_area w-25">
+    <div class="m-4">
       <!-- 新規投稿ボタン -->
-      <div class=""><a href="{{ route('post.input') }}">投稿</a></div>
+      <div class="">
+        <input type="submit" name="posts_create" class="post_btn" value="投稿" form="postCreate">
+        <form action="{{ route('post.input') }}" method="get" id="postCreate"></form>
+        <!-- <a href="{{ route('post.input') }}">投稿</a> -->
+      </div>
       <!-- 検索フォーム -->
       <div class="">
         <input type="text" placeholder="キーワードを検索" name="keyword" class="" form="postSearchRequest">

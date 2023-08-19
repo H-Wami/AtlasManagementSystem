@@ -29,7 +29,7 @@
           @endif
         </div>
 
-        <div class="contributor d-flex">
+        <div class="detail_contributor d-flex">
           <!-- 投稿者名 -->
           <p>
             <span>{{ $post->user->over_name }}</span>
