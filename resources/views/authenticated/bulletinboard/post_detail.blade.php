@@ -67,7 +67,7 @@
 
   <!-- 新規コメント登録 -->
   <div class="w-50 p-3">
-    <div class="comment_container border m-5">
+    <div class="comment_container m-5">
       <div class="comment_area p-3">
         <!-- コメントバリデーションメッセージ -->
         @if($errors->first('comment'))
@@ -94,7 +94,7 @@
         <div class="modal-inner-title w-50 m-auto">
           <input type="text" name="post_title" placeholder="タイトル" class="w-100">
         </div>
-        <div class="modal-inner-body w-50 m-auto"><!-- pt-3 pb-3削除 -->
+        <div class="modal-inner-body w-50 m-auto pt-3 pb-3">
           <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
         </div>
         <div class="w-50 m-auto edit-modal-btn d-flex">

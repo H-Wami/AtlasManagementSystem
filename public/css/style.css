@@ -26,6 +26,37 @@ li{
   list-style:none;
 }
 
+select,
+textarea,
+input{
+  border: solid 1px #DEE2E6;
+}
+
+select{
+  -moz-appearance: menulist;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+.subtitle{
+  margin: 10px 10px;
+}
+
+.arrow {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-bottom: 3px solid #03AAD2;
+  border-right: 3px solid #03AAD2;
+  transform: rotate(45deg);
+  margin: 0 0 1px 5px;
+}
+
+.arrow.open {
+  transform: rotate(-135deg);
+}
+
 /* バリデーションメッセージ */
 .error_message {
   font-size: 12px;
@@ -51,6 +82,7 @@ li{
   padding: 8px 5px;
   border-radius: 12px;
 }
+
 
 /* ログインページ */
 .login_container{
@@ -115,20 +147,16 @@ li{
   align-items: center;
 }
 
-
 .radio{
   position: relative;
   top: 2px;
   margin-right: 2px;
 }
 
-
 .birth_day{
-  -moz-appearance: menulist;
-  -webkit-appearance: menulist;
-  appearance: menulist;
   padding-right: 25px;
-  border-bottom: 1px solid #007BFF ;
+  border: none;
+  border-bottom: 1px solid #007BFF;
 }
 
 .birth_day_text{
@@ -145,22 +173,49 @@ li{
 /* サイドバー */
 .sidebar{
   width:150px;
-  height:100vh;
+  height:100%;
   background-color:#03AAD2;
   font-weight:bold;
+  font-size: 14px;
+  padding: 10px 8px;
   overflow: auto;
+  position: fixed;
 }
+
 .main-container{
   width:100%;
+  margin-left: 150px;
+  position: relative;
 }
+
 .sidebar p a{
   color:#FFF;
 }
 
-/* トップページ */
+.bi{
+  color: #FFF;
+  padding-right: 5px;
+}
+
+/* トップページ プロフィールページ */
 .user_status{
   border-radius:10px;
   background:#FFF;
+  box-shadow: 2px 2px 4px #D3D3D3;
+}
+
+.subject_edit_btn{
+  font-size:12px;
+  color:#03AAD2;
+  cursor:pointer;
+}
+
+.subject_inner{
+  display:none;
+}
+
+.subject_list{
+  display: block;
 }
 
 /* スクール予約関連 */
@@ -221,6 +276,38 @@ li{
   width:70%;
 }
 
+.reserve_table{
+  width: 98%;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.table_items{
+  width: 100%;
+  text-align: center;
+  background-color: #03AAD2;
+  color: #FFF;
+}
+
+.table_user{
+  width: 100%;
+  height: 40px;
+  text-align: center;
+}
+
+/* tableタグの子要素が全てtrだと、項目も含めて数えてしまう。(=偶数が奇数になる)theadタグとtbodyタグで分けてからtrタグに対して擬似クラスをかける。(=tbodyタグの中で数えるようになる) */
+.table_user:nth-child(even){
+  background-color: #D6E9EF;
+}
+
+.user_id_item{
+  width: 20%;
+}
+
+.user_info_item{
+  width: 40%;
+}
+
 /* 予約削除モーダル */
 .reserve_modal_content {
   width: 100%;
@@ -264,14 +351,6 @@ li{
     width: 60%;
 }
 
-.modal-inner-title {
-  border: solid 1px #DEE2E6;
-}
-
-.modal-inner-body {
-  border: solid 1px #DEE2E6;
-}
-
 /* 掲示板 投稿画面 */
 .sub_categories{
   display:none;
@@ -282,38 +361,16 @@ li{
   border-radius:10px;
 }
 
-.post_create_area select {
-  border: solid 1px #DEE2E6;
-  -moz-appearance: menulist;
-  -webkit-appearance: menulist;
-  appearance: menulist;
-}
-
-.post_create_area input {
-  border: solid 1px #DEE2E6;
-}
-
 .post_create_area textarea{
-  border: solid 1px #DEE2E6;
   resize:none;
   height:300px;
   white-space: pre-wrap;
 }
 
-.category_container input {
-  border: solid 1px #DEE2E6;
-}
-
-.category_container select {
-  border: solid 1px #DEE2E6;
-  -moz-appearance: menulist;
-  -webkit-appearance: menulist;
-  appearance: menulist;
-}
-
 /* 掲示板 一覧画面 */
 .detail_container{
   background:#FFF;
+  border-radius: 10px;
 }
 .post_area{
   background:#FFF;
@@ -347,6 +404,7 @@ li{
 .detail_inner_head{
   display:flex;
   justify-content: space-between;
+  padding-bottom: 10px;
 }
 .edit-modal-open{
   cursor:pointer;
@@ -361,6 +419,7 @@ li{
 /* 掲示板 コメント */
 .comment_container{
   background:#FFF;
+  border-radius: 10px;
 }
 .comment_area p,
 .comment_area input{
@@ -370,7 +429,6 @@ li{
 .comment_area textarea{
   height:300px;
   resize:none;
-  border: solid 1px #DEE2E6;
 }
 .comment_container span{
   font-size:12px;
@@ -406,36 +464,130 @@ li{
 }
 
 /* ユーザー検索 */
+.search_content{
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
 .reserve_users_area{
   display:flex;
   flex-wrap:wrap;
   width:800px;
-  margin:10px auto;
-  height:80vh;
-  overflow: scroll;
-  padding:10px;
-  background:#FFF;
-  border-radius:5px;
+  height:100vh;
+  overflow-y: scroll;
+  padding:20px 30px 20px 30px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 auto;
 }
+
 .reserve_users_area span{
   font-size:12px;
 }
-.one_person{
-  width:250px;
-  height:250px;
+
+.user_item {
+  color: #999;
+  font-weight: bold;
 }
+
+.user_info{
+  font-weight: bold;
+}
+
+.user_name{
+  color: #03AAD2;
+}
+
+.one_person{
+  width:170px;
+  height:185px;
+  background: #FFF;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px #D3D3D3;
+  padding: 8px;
+}
+
+.search_users_area {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  align-items: flex-start;
+  padding: 20px 20px 20px 10px;
+}
+
+.search_items{
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.search_text{
+  color: #2C5273;
+}
+
+.select_text{
+  color: #2C5273;
+  font-size: 14px;
+}
+
+.free_word{
+  background-color: #E0E5EA;
+  border: none;
+  height: 35px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.select_item{
+  background-color: #E0E5EA;
+  border: none;
+  width: 30%;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.search_conditions{
+  display: flex;
+  border-bottom: solid 3px #DEE2E6;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.navy{
+  border-bottom: 3px solid #2C5273;
+  border-right: 3px solid #2C5273;
+  margin-top: 5px;
+}
+
 .search_conditions span{
   cursor:pointer;
+  color: #2C5273;
 }
 .search_conditions_inner{
   display:none;
-  background:#FFF;
 }
-.subject_edit_btn{
-  font-size:12px;
-  color:#0000FF;
-  cursor:pointer;
+
+.inner_items{
+  display: flex;
 }
-.subject_inner{
-  display:none;
+
+.select_content{
+  padding-right: 8px;
+}
+
+.search_btn {
+  background-color: #03AAD2;
+  border: none;
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  color: #FFF;
+  font-size: 14px;
+}
+
+.reset_text {
+  color: #03AAD2;
+  border: none;
 }
