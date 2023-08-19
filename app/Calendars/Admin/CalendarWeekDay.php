@@ -34,21 +34,21 @@ class CalendarWeekDay{
     // $one_partの場合
     if($one_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<a class="day_part" href=' . route("calendar.admin.detail",["date" => $one_part->setting_reserve,"part" => $one_part->setting_part]) . '>1部</a>'; // aタグに修正。routeの中身は文字列ではない(''で囲むと文字列になる為、""を使う)
+      $html[] = '<a class="day_part" href="' . route("calendar.admin.detail",["date" => $one_part->setting_reserve,"part" => $one_part->setting_part]) . '">1部</a>'; // aタグに修正。routeの中身は文字列ではない(''で囲むと文字列になる為、""を使う)
       $html[] = '<p class="day_part_count">' . $one_part->users($one_part->id)->count() . '</p>'; // $one_partの値取得->リレーションメソッド使用->count関数で各部の予約している人数を取得
       $html[] = '</div>';
     }
     // $two_partの場合
     if($two_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<a class="day_part" href=' . route("calendar.admin.detail", ["date" => $two_part->setting_reserve, "part" => $two_part->setting_part]) . '>2部</a>';
+      $html[] = '<a class="day_part" href="' . route("calendar.admin.detail", ["date" => $two_part->setting_reserve, "part" => $two_part->setting_part]) . '">2部</a>';
       $html[] = '<p class="day_part_count">' . $two_part->users($two_part->id)->count() . '</p>';
       $html[] = '</div>';
     }
     // $three_partの場合
     if($three_part){
       $html[] = '<div class="day_part_contents">';
-      $html[] = '<a class="day_part" href=' . route("calendar.admin.detail", ["date" => $three_part->setting_reserve, "part" => $three_part->setting_part]) . '>3部</a>';
+      $html[] = '<a class="day_part" href="' . route("calendar.admin.detail", ["date" => $three_part->setting_reserve, "part" => $three_part->setting_part]) . '">3部</a>';
       $html[] = '<p class="day_part_count">' . $three_part->users($three_part->id)->count() . '</p>';
       $html[] = '</div>';
     }
