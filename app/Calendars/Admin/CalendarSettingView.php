@@ -39,7 +39,7 @@ class CalendarSettingView{
         $startDay = $this->carbon->format("Y-m-01");
         $toDay = $this->carbon->format("Y-m-d");
 
-       if($startDay <= $day->everyDay() && $toDay > $day->everyDay()){ //>=$day->everyDay()から変更
+       if($startDay <= $day->everyDay() && $toDay > $day->everyDay()){ // >=$day->everyDay()から変更
           $html[] = '<td class="past-day border ' . $day->getClassName() . '">';
         }else{
           $html[] = '<td class="border '.$day->getClassName().'">';
@@ -47,7 +47,7 @@ class CalendarSettingView{
         $html[] = $day->render();
         $html[] = '<div class="adjust-area">';
         if($day->everyDay()){
-          if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+          if($startDay <= $day->everyDay() && $toDay > $day->everyDay()){ // >=$day->everyDay()から変更
             $html[] = '<p class="d-flex m-0 p-0">1部<input class="w-25" style="height:20px;" name="reserve_day['.$day->everyDay().'][1]" type="text" form="reserveSetting" value="'.$day->onePartFrame($day->everyDay()).'" disabled></p>';
             $html[] = '<p class="d-flex m-0 p-0">2部<input class="w-25" style="height:20px;" name="reserve_day['.$day->everyDay().'][2]" type="text" form="reserveSetting" value="'.$day->twoPartFrame($day->everyDay()).'" disabled></p>';
             $html[] = '<p class="d-flex m-0 p-0">3部<input class="w-25" style="height:20px;" name="reserve_day['.$day->everyDay().'][3]" type="text" form="reserveSetting" value="'.$day->threePartFrame($day->everyDay()).'" disabled></p>';
