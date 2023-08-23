@@ -15,7 +15,7 @@
             <th class="user_info_item">場所</th>
           </tr>
         </thead>
-        <!-- 予約ユーザーひとまとめ tbodyタグで囲む(@foreachもまとめて) -->
+        <!-- 予約ユーザーひとまとめ tbodyタグで囲む(foreachもまとめて) -->
         <tbody>
           @foreach($reservePersons as $reservePerson)
           @foreach($reservePerson->users as $user)

@@ -77,8 +77,10 @@
         <!-- コメント入力欄 -->
         <textarea class="w-100" name="comment" form="commentRequest"></textarea>
         <!-- 投稿ボタン -->
-        <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
-        <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
+        <div class="comment_btn">
+          <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
+          <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
+        </div>
         <form action="{{ route('comment.create') }}" method="post" id="commentRequest">{{ csrf_field() }}</form>
       </div>
     </div>

@@ -20,7 +20,7 @@
 <body class="all_content">
   <form action="{{ route('loginPost') }}" method="POST">
     <div class="login_container">
-      <div class="title"><img src="image/atlas-black.png" alt="ロゴ画像"></div>
+      <div class="title"><img src="{{ asset('image/atlas-black.png') }}" alt="ロゴ画像"></div>
       <!-- ログインフォーム -->
       <div class="login_form">
         <div class="w-75 m-auto pt-5">

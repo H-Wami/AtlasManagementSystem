@@ -1,7 +1,9 @@
 $(function () {
+  // メインカテゴリーを押した時のサブカテゴリー表示
   $('.main_categories').click(function () {
-    var category_id = $(this).attr('category_id');
-    $('.category_num' + category_id).slideToggle();
+    var category_id = $(this).attr('category_id'); // 押されたボタンからカテゴリーidを取得して変数へ格納
+    $('.category_arrow' + category_id).toggleClass('open'); //矢印の向きが変わる
+    $('.category_num' + category_id).slideToggle(); //
   });
 
   // いいねした時のハートマーク表示機能

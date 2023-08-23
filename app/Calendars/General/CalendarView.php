@@ -30,8 +30,8 @@ class CalendarView{
     $html[] = '<th>水</th>';
     $html[] = '<th>木</th>';
     $html[] = '<th>金</th>';
-    $html[] = '<th>土</th>';
-    $html[] = '<th>日</th>';
+    $html[] = '<th class="day-sat">土</th>';
+    $html[] = '<th class="day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -78,7 +78,7 @@ class CalendarView{
         }else{
           // もし、予約していない日付が過去の日付ならば
           if ($startDay <= $day->everyDay() && $toDay > $day->everyDay()) {
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">受付終了</p>';
+            $html[] = '<p class="end_of_reception">受付終了</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           } else { // もし、予約していない日付が今日以降の日付ならば
           $html[] = $day->selectPart($day->everyDay()); // 予約の選択肢表示

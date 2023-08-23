@@ -5,7 +5,7 @@
 <form action="{{ route('post.create') }}" method="post" id="postCreate">
   {{ csrf_field() }}
   <div class="post_create_container d-flex">
-    <div class="post_create_area border w-50 m-5 p-5">
+    <div class="post_create_area m-5 p-5">
       <!-- カテゴリー -->
       <div class="">
         @if($errors->has('post_category_id'))

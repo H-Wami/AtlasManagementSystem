@@ -24,7 +24,9 @@ class PostsController extends Controller
         if(!empty($request->keyword)){ // もし検索ワードが入力されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments') //Postモデルと関連するusers・post_commentsテーブルを取得
             ->where('post_title', 'like', '%'.$request->keyword.'%') //タイトル(post_titleカラム)であいまい検索
-            ->orWhere('post', 'like', '%'.$request->keyword.'%') // または投稿内容(postカラム)であいまい検索
+            ->orWhereHas('user', function ($q) use ($request) {
+                $q->where('over_name', 'like', '%' . $request->keyword . '%')->orWhere('under_name', 'like', '%' . $request->keyword . '%'); //または名前(over_name,under_nameカラム)であいまい検索
+            })
             ->orWhereHas('subCategories', function ($q) use ($request) {
                 $q->where('sub_category', $request->keyword); //またはサブカテゴリー完全一致検索
             })->latest()->get(); // 値を新しい順で取得
@@ -37,10 +39,10 @@ class PostsController extends Controller
         }else if($request->like_posts){ // もしいいねした投稿表示ボタンが押されたら(値が送信されたら)、
             $likes = Auth::user()->likePostId()->get('like_post_id'); // ログインユーザーの情報->likesテーブルのlike_user_idカラムとログインユーザーIDが一致している->link_post_idカラムを取得
             $posts = Post::with('user', 'postComments')
-            ->whereIn('id', $likes)->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->postsテーブルのidカラムが$likeと同じ投稿を取得
+            ->whereIn('id', $likes)->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->postsテーブルのidカラムが$likeと同じ投稿を取得
         }else if($request->my_posts){ // もし自分の投稿表示ボタンが押されたら(値を送信されたら)、
             $posts = Post::with('user', 'postComments')
-            ->where('user_id', Auth::id())->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->user_idカラムとログインユーザーIDが同じ投稿を取得
+            ->where('user_id', Auth::id())->latest()->get(); //Postモデルと関連するusers・post_commentsテーブルを取得->user_idカラムとログインユーザーIDが同じ投稿を取得
         }
         return view('authenticated.bulletinboard.posts', compact('posts', 'categories', 'like', 'post_comment'));
     }
@@ -185,13 +187,13 @@ class PostsController extends Controller
          // likesテーブルと関連するusersテーブルを取得。->likesテーブルのlike_user_idカラムとログインユーザーIDが同じ->like_post_idカラムを取得->配列に変換
         $posts = Post::with('user')->whereIn('id', $like_post_id)->latest()->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->新しい順で値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
-        return view('authenticated.bulletinboard.post_like', compact('posts', 'like'));
+        return view('authenticated.bulletinboard.post_like', compact('posts', 'like','categories'));
     }
 
     // サブカテゴリー(検索)投稿表示
     public function subCategoryBulletinBoard()
     {
-        $posts = Post::with('user')->whereIn('id', )->latest()->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと$like_post_idが同じ->新しい順で値を取得
+        $posts = Post::with('user')->whereIn('id', )->latest()->get(); // postsテーブルと関連するuserテーブルを取得->postsテーブルのIDと同じ->新しい順で値を取得
         $like = new Like; // Likeモデル使用(値の取り出し)
         return view('authenticated.bulletinboard.posts', compact('posts', 'like'));
     }

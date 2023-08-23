@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('content')
-<div class="search_content">
+<div class="search_container">
   <!-- ユーザー一覧 -->
   <div class="reserve_users_area">
     @foreach($users as $user)
@@ -82,7 +82,7 @@
         <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
       </div>
       <div class="search_items">
-        <label class="select_text">カテゴリ</label>
+        <label class="select_text">カテゴリー</label>
         <select form="userSearchRequest" name="category" class="select_item">
           <option value="name">名前</option>
           <option value="id">社員ID</option>
